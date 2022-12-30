@@ -32,6 +32,9 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests()
                         .anyRequest().permitAll()
                 .and()
+                .formLogin()
+                    .loginProcessingUrl("/api/auth/signin").permitAll()
+                .and()
                 .build();
     }
 }
