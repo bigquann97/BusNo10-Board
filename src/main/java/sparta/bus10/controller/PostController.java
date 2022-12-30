@@ -32,12 +32,12 @@ public class PostController {
 
 
 
-    @PutMapping("/post/{id}")
+    @PutMapping("/post/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
         postService.editPost(postId,postrequestDto);
 
     }
-    @DeleteMapping("/post/{id}")
+    @DeleteMapping("/post/{postId}")
     public void deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
     }
