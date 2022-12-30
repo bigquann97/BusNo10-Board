@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class PostController {
     @GetMapping('/api')
-    public void asdasd(){
+    public void asd(){
 
     }
 }
