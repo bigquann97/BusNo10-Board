@@ -14,6 +14,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+
     @PostMapping("/post")
     public void createPost(@RequestBody PostRequestDto requestDto) {
         postService.createService(requestDto);
