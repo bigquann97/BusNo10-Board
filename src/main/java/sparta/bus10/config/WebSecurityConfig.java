@@ -24,15 +24,15 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http
-                .csrf()
-                        .disable()
-                .sessionManagement(session -> session
+                http.csrf().disable();
+                http.headers().frameOptions().disable();
+
+                http.sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests()
-                        .anyRequest().permitAll()
-                .and()
-                .build();
+                        .antMatchers("/h2-console/**").permitAll()
+                        .anyRequest().permitAll();
+        return http.build();
     }
 }
 
