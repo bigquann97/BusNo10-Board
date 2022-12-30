@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-public class Post {
+public class Post extends Timestamp {
     @Id
     @GeneratedValue
     private Long postId;
