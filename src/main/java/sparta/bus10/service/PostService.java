@@ -8,7 +8,6 @@ import sparta.bus10.entity.Post;
 import sparta.bus10.repository.PostRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,16 +17,19 @@ public class PostService {
         postRepository.save(new Post(requestDto));
     }
 
-    public List<Post> getPostAll(){
-        return postRepository.findAll();
+    public List<PostResponseDto> getPostAll(){
+        List<Post> post = postRepository.findAll();
+        return post.stream().map(x-> new PostResponseDto(x)).toList();
     }
 
 
-    public Post getPostOne(Long postId){
-        return postRepository.findById(postId).orElseThrow(
-            ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
-        );
+    public PostResponseDto getPostOne(Long postId){
+        Post post = postRepository.findById(postId).orElseThrow(
+            ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
+//        PostResponseDto postResponseDto = new PostResponseDto(post);
+        return new PostResponseDto(post);
     }
+
     public void editPost(Long postId ,PostRequestDto postrequestDto) {
        Post post = postRepository.findById(postId).orElseThrow(
                ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
