@@ -22,18 +22,23 @@ public class PostService {
         return postRepository.findAll();
     }
 
+
     public Post getPostOne(Long postId){
         return postRepository.findById(postId).orElseThrow(
             ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
     }
     public void editPost(Long postId ,PostRequestDto postrequestDto) {
-       Post post = postRepository.findByPostId(postId);
+       Post post = postRepository.findById(postId).orElseThrow(
+               ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
+       );
        post.changePost(postrequestDto);
        postRepository.save(post);
     }
     public void deletePost(Long postId){
-        Post post = postRepository.findByPostId(postId);
+        Post post = postRepository.findById(postId).orElseThrow(
+                ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
+        );
         postRepository.delete(post);
     }
 
