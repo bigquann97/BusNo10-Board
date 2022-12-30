@@ -26,4 +26,8 @@ public class Post extends Timestamp {
         this.postTitle = requestDto.getPostTitle();
         this.postContent = requestDto.getPostContent();
     }
+    public void changePost(PostRequestDto postRequestDto) {
+        this.postTitle = postRequestDto.getPostTitle();
+        this.postContent = postRequestDto.getPostContent();
+    }
 }

@@ -6,5 +6,5 @@ import sparta.bus10.entity.Post;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<Post> findByPostId(Long id);
+    Post findByPostId(Long id);
 }

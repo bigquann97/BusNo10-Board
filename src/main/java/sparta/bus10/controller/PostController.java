@@ -1,6 +1,7 @@
 package sparta.bus10.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sparta.bus10.dto.PostRequestDto;
 import sparta.bus10.entity.Post;
@@ -26,7 +27,20 @@ public class PostController {
     }
     @GetMapping("/post/{postId}")
     public Post getPostOne(@PathVariable Long postId){
-        return postService.getPost(postId);
+        return postService.getPostOne(postId);
     }
+
+
+
+    @PutMapping("/post/{id}")
+    public void editPost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
+        postService.editPost(postId,postrequestDto);
+
+    }
+    @DeleteMapping("/post/{id}")
+    public void deletePost(@PathVariable Long postId) {
+        postService.deletePost(postId);
+    }
+
 }
 
