@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 public class PostController {
-    @GetMapping('/api')
+//    @GetMapping('/api')
     public void asd(){
 
     }
