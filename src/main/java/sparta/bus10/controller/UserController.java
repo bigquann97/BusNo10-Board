@@ -10,7 +10,7 @@ public class UserController {
 
     @GetMapping("/temp")
     public String temp() {
-        return "temp";
+        return "tempasd";
     }
 
 }
