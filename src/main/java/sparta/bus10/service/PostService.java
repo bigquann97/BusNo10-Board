@@ -8,6 +8,7 @@ import sparta.bus10.entity.Post;
 import sparta.bus10.repository.PostRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,7 +20,7 @@ public class PostService {
 
     public List<PostResponseDto> getPostAll(){
         List<Post> post = postRepository.findAll();
-        return post.stream().map(x-> new PostResponseDto(x)).toList();
+        return post.stream().map(x-> new PostResponseDto(x)).collect(Collectors.toList());
     }
 
 
