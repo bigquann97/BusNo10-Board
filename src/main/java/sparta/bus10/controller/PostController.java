@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sparta.bus10.dto.PostRequestDto;
 import sparta.bus10.entity.Post;
-import sparta.bus10.service.PostService;
+import sparta.bus10.service.*;
 
 import java.util.List;
 
