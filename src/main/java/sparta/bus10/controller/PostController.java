@@ -1,10 +1,9 @@
 package sparta.bus10.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sparta.bus10.dto.PostRequestDto;
-import sparta.bus10.entity.Post;
+import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.service.*;
 
 import java.util.List;
@@ -16,28 +15,25 @@ public class PostController {
     private final PostService postService;
 
 
-    @PostMapping("/post")
+    @PostMapping("/posts")
     public void createPost(@RequestBody PostRequestDto requestDto) {
         postService.createService(requestDto);
     }
 
     @GetMapping("/posts")
-    public List<Post> getPostAll(){
+    public List<PostResponseDto> getPostAll(){
         return postService.getPostAll();
     }
-    @GetMapping("/post/{postId}")
-    public Post getPostOne(@PathVariable Long postId){
+    @GetMapping("/posts/{postId}")
+    public PostResponseDto getPostOne(@PathVariable Long postId){
         return postService.getPostOne(postId);
     }
-
-
-
-    @PutMapping("/post/{id}")
+    @PutMapping("/posts/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
         postService.editPost(postId,postrequestDto);
 
     }
-    @DeleteMapping("/post/{id}")
+    @DeleteMapping("/posts/{postId}")
     public void deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
     }
