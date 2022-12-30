@@ -20,8 +20,8 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post getPost(Long id){
-        return postRepository.findByPostId(id).orElseThrow(
+    public Post getPost(Long postId){
+        return postRepository.findById(postId).orElseThrow(
             ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
     }
