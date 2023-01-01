@@ -3,7 +3,9 @@ package sparta.bus10.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sparta.bus10.entity.Comment;
+import sparta.bus10.entity.Post;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +16,20 @@ public class PostResponseDto {
         private String userName;
         private String postTitle;
         private String postContent;
+        private LocalDateTime createdAt;
+        private LocalDateTime modifiedAt;
         private List<CommentResponseDto> commentList = new ArrayList<>();
 
-        public PostResponseDto(String userName , String postTitle , String postContent, List<Comment> comments){
+        public PostResponseDto(Post post, List<Comment> comments){
                 for (Comment comment : comments) {
                         CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
                         commentList.add(commentResponseDto);
                 }
-                this.userName = userName;
-                this.postTitle = postTitle;
-                this.postContent = postContent;
+                this.userName = post.getUsername();
+                this.postTitle = post.getPostTitle();
+                this.postContent = post.getPostContent();
+                this.createdAt = post.getCreatedAt();
+                this.modifiedAt = post.getModifiedAt();
         }
 
 }

@@ -4,24 +4,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sparta.bus10.entity.Comment;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 public class CommentResponseDto {
     private String userName;
     private String commentContent;
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
     public CommentResponseDto(Comment comment) {
         this.userName = comment.getUsername();
         this.commentContent = comment.getCommentContent();
+        this.createdAt = comment.getCreatedAt();
+        this.modifiedAt = comment.getModifiedAt();
     }
-    public static List<CommentResponseDto> of(List<Comment> comments) {
-            List<CommentResponseDto> commentResponseDto = comments.stream().map(x->new CommentResponseDto()).collect(Collectors.toList());
-            return commentResponseDto;
 
-    }
     //코멘트 생성시 같은아이디로 2개의 댓글 생성불가
 
 }

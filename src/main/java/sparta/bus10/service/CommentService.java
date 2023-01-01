@@ -19,7 +19,7 @@ public class CommentService {
        postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
        );
-       var comment = new Comment(postId,commentrequestDto.getUserName(),commentrequestDto.getCommentContent());
+       Comment comment = new Comment(postId,commentrequestDto.getUserName(),commentrequestDto.getCommentContent());
         commentRepository.save(comment);
     }
     @Transactional

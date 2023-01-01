@@ -32,7 +32,7 @@ public class PostService {
         for (Post post : posts) {
             Long postId = post.getPostId();
             List<Comment> comments = commentRepository.findByPostId(postId);
-            PostResponseDto postResponseDto = new PostResponseDto(post.getUsername(), post.getPostTitle(), post.getPostContent(), comments);
+            PostResponseDto postResponseDto = new PostResponseDto(post, comments);
             resultPosts.add(postResponseDto);
         }
         return resultPosts;
@@ -43,7 +43,7 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
             ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
         List<Comment> comment = commentRepository.findByPostId(postId);
-        PostResponseDto postResponseDto = new PostResponseDto(post.getUsername(),post.getPostTitle(),post.getPostContent(),comment);
+        PostResponseDto postResponseDto = new PostResponseDto(post,comment);
         return postResponseDto;
     }
 
