@@ -9,22 +9,22 @@ import sparta.bus10.service.CommentService;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class CommentController {
-    private final CommentService commentService;
 
+    private final CommentService commentService;
 
     @PostMapping("/posts/{postId}/comments")
     public void createCommentService(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto) {
-        commentService.createCommentService(postId,requestDto);
+        commentService.createCommentService(postId, requestDto);
     }
 
     @PutMapping("/posts/{postId}/comments/{commentId}")
-    public void editComment(@PathVariable Long postId,@PathVariable Long commentId, @RequestBody CommentRequestDto commentrequestDto) {
-        commentService.editComment(postId,commentId,commentrequestDto);
+    public void editComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentRequestDto commentrequestDto) {
+        commentService.editComment(postId, commentId, commentrequestDto);
     }
 
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
-    public void deleteComment(@PathVariable Long postId,@PathVariable Long commentId,@RequestBody String userName) {
-        commentService.deleteComment(postId,commentId,userName);
+    public void deleteComment(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody String userName) {
+        commentService.deleteComment(postId, commentId, userName);
     }
 
 }

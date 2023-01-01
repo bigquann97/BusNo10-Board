@@ -34,6 +34,7 @@ public class WebSecurityConfig {
                         .anyRequest().permitAll();
         return http.build();
     }
+
 }
 
 /*

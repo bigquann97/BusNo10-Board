@@ -15,17 +15,22 @@ public class Comment extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
+
     @Column(nullable = false)
     private Long postId;
+
     @Column(nullable = false)
     private String username;
+
     @Column(nullable = false)
     private String commentContent;
+
     public Comment(Long postId, String requestUsername,String requestCommentContent){
         this.postId = postId;
         this.username = requestUsername;
         this.commentContent = requestCommentContent;
     }
+
     public void changeComment(String requestComment){
         this.commentContent = requestComment;
     }

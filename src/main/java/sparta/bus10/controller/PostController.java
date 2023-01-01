@@ -12,8 +12,8 @@ import java.util.List;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class PostController {
-    private final PostService postService;
 
+    private final PostService postService;
 
     @PostMapping("/posts")
     public void createPost(@RequestBody PostRequestDto postrequestDto) {
@@ -22,20 +22,23 @@ public class PostController {
 
 
     @GetMapping("/posts")
-    public List<PostResponseDto> getPostAll(){
+    public List<PostResponseDto> getPostAll() {
         return postService.getPostAll();
     }
+
     @GetMapping("/posts/{postId}")
-    public PostResponseDto getPostOne(@PathVariable Long postId){
+    public PostResponseDto getPostOne(@PathVariable Long postId) {
         return postService.getPostOne(postId);
     }
+
     @PutMapping("/posts/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
-        postService.editPost(postId,postrequestDto);
+        postService.editPost(postId, postrequestDto);
     }
+
     @DeleteMapping("/posts/{postId}")
-    public void deletePost(@PathVariable Long postId,@RequestBody PostRequestDto postrequestDto) {
-        postService.deletePost(postId,postrequestDto);
+    public void deletePost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
+        postService.deletePost(postId, postrequestDto);
     }
 
 }
