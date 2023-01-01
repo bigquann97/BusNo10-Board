@@ -10,24 +10,25 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 public class Post extends Timestamp {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
     @Column(nullable = false, unique = true)
     private String username;
+
     @Column(nullable = false)
     private String postTitle;
+
     @Column(nullable = false)
     private String postContent;
-
 
     public Post(String username, String requestPostTitle, String requestPostContent) {
         this.username = username;
         this.postTitle = requestPostTitle;
         this.postContent = requestPostContent;
     }
-
 
     public void changePost(String username, String requestPostTitle, String requestPostContent) {
         this.username = username;
