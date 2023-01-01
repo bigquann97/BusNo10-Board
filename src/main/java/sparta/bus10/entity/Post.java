@@ -2,34 +2,37 @@ package sparta.bus10.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sparta.bus10.dto.PostRequestDto;
+import sparta.bus10.dto.CommentResponseDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class Post extends Timestamp {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
+    @Column(nullable = false, unique = true)
+    private String username;
     @Column(nullable = false)
     private String postTitle;
     @Column(nullable = false)
     private String postContent;
 
-    public Post(PostRequestDto requestDto) {
-        this.postTitle = requestDto.getPostTitle();
-        this.postContent = requestDto.getPostContent();
+
+    public Post(String username, String requestPostTitle, String requestPostContent) {
+        this.username = username;
+        this.postTitle = requestPostTitle;
+        this.postContent = requestPostContent;
     }
-    public void changePost(PostRequestDto postRequestDto) {
-        this.postTitle = postRequestDto.getPostTitle();
-        this.postContent = postRequestDto.getPostContent();
+
+
+    public void changePost(String username, String requestPostTitle, String requestPostContent) {
+        this.username = username;
+        this.postTitle = requestPostTitle;
+        this.postContent = requestPostContent;
     }
 
 }

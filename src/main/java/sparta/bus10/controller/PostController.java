@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import sparta.bus10.dto.PostRequestDto;
 import sparta.bus10.dto.PostResponseDto;
-import sparta.bus10.service.*;
+import sparta.bus10.service.PostService;
 
 import java.util.List;
 
@@ -16,9 +16,10 @@ public class PostController {
 
 
     @PostMapping("/posts")
-    public void createPost(@RequestBody PostRequestDto requestDto) {
-        postService.createService(requestDto);
+    public void createPost(@RequestBody PostRequestDto postrequestDto) {
+        postService.createPost(postrequestDto);
     }
+
 
     @GetMapping("/posts")
     public List<PostResponseDto> getPostAll(){
@@ -31,11 +32,10 @@ public class PostController {
     @PutMapping("/posts/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
         postService.editPost(postId,postrequestDto);
-
     }
     @DeleteMapping("/posts/{postId}")
-    public void deletePost(@PathVariable Long postId) {
-        postService.deletePost(postId);
+    public void deletePost(@PathVariable Long postId,@RequestBody PostRequestDto postrequestDto) {
+        postService.deletePost(postId,postrequestDto);
     }
 
 }

@@ -2,47 +2,71 @@ package sparta.bus10.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sparta.bus10.dto.PostRequestDto;
 import sparta.bus10.dto.PostResponseDto;
+import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Post;
+import sparta.bus10.entity.UserRoleEnum;
+import sparta.bus10.repository.CommentRepository;
 import sparta.bus10.repository.PostRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-    public void createService(PostRequestDto requestDto) {
-        postRepository.save(new Post(requestDto));
+    private final CommentRepository commentRepository;
+
+    @Transactional
+    public void createPost(PostRequestDto postrequestDto) {
+        postRepository.save(new Post(postrequestDto.getUserName(),postrequestDto.getPostTitle(),postrequestDto.getPostContent()));
     }
 
+    @Transactional
     public List<PostResponseDto> getPostAll(){
-        List<Post> post = postRepository.findAll();
-        return post.stream().map(x-> new PostResponseDto(x)).collect(Collectors.toList());
+        List<Post> posts = postRepository.findAll();
+        List<PostResponseDto> resultPosts = new ArrayList<>();
+        for (Post post : posts) {
+            Long postId = post.getPostId();
+            List<Comment> comments = commentRepository.findByPostId(postId);
+            PostResponseDto postResponseDto = new PostResponseDto(post.getUsername(), post.getPostTitle(), post.getPostContent(), comments);
+            resultPosts.add(postResponseDto);
+        }
+        return resultPosts;
     }
 
-
+    @Transactional
     public PostResponseDto getPostOne(Long postId){
         Post post = postRepository.findById(postId).orElseThrow(
             ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
-//        PostResponseDto postResponseDto = new PostResponseDto(post);
-        return new PostResponseDto(post);
+        List<Comment> comment = commentRepository.findByPostId(postId);
+        PostResponseDto postResponseDto = new PostResponseDto(post.getUsername(),post.getPostTitle(),post.getPostContent(),comment);
+        return postResponseDto;
     }
 
-    public void editPost(Long postId ,PostRequestDto postrequestDto) {
+    @Transactional
+    public void editPost(Long postId , PostRequestDto postrequestDto) {
        Post post = postRepository.findById(postId).orElseThrow(
                ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
        );
-       post.changePost(postrequestDto);
+        if (!post.getUsername().equals(postrequestDto.getUserName())){
+            throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
+        }
+       post.changePost(postrequestDto.getUserName(),postrequestDto.getPostTitle(),postrequestDto.getPostContent());
        postRepository.save(post);
     }
-    public void deletePost(Long postId){
+
+    @Transactional
+    public void deletePost(Long postId, PostRequestDto postrequestDto){
         Post post = postRepository.findById(postId).orElseThrow(
                 ()-> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
+        if (!post.getUsername().equals(postrequestDto.getUserName())){
+            throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
+        }
         postRepository.delete(post);
     }
-
 }
