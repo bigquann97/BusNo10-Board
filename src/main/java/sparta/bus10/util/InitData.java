@@ -76,11 +76,11 @@ public class InitData implements ApplicationRunner {
     }
 
     private void createUsers() {
-        User sparta = new User("sparta", passwordEncoder.encode("sparta"), UserRoleEnum.ROLE_ADMIN);
-        User gwanho = new User("gwanho", passwordEncoder.encode("gwanho"), UserRoleEnum.ROLE_USER);
-        User songmi = new User("songmi", passwordEncoder.encode("songmi"), UserRoleEnum.ROLE_USER);
-        User jaewon = new User("jaewon", passwordEncoder.encode("jaewon"), UserRoleEnum.ROLE_USER);
-        User imsoo = new User("imsoo", passwordEncoder.encode("imsoo"), UserRoleEnum.ROLE_USER);
+        User sparta = new User("sparta", passwordEncoder.encode("sparta"), UserRoleEnum.ADMIN);
+        User gwanho = new User("gwanho", passwordEncoder.encode("gwanho"), UserRoleEnum.USER);
+        User songmi = new User("songmi", passwordEncoder.encode("songmi"), UserRoleEnum.USER);
+        User jaewon = new User("jaewon", passwordEncoder.encode("jaewon"), UserRoleEnum.USER);
+        User imsoo = new User("imsoo", passwordEncoder.encode("imsoo"), UserRoleEnum.USER);
         userRepository.save(sparta);
         userRepository.save(gwanho);
         userRepository.save(songmi);
