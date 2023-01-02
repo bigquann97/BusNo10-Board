@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import sparta.bus10.entity.Comment;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -13,10 +15,9 @@ public class CommentResponseDto {
     private Long commentId;
     private String userName;
     private String commentContent;
+    private List<CommentResponseDto> replies = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-
-
 
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();

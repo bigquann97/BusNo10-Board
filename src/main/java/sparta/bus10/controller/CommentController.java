@@ -49,7 +49,7 @@ public class CommentController {
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @RequestBody CommentRequestDto request
     ) {
-        commentService.createReply(commentId, userDetails,request);
+        commentService.createReply(commentId, userDetails.getUser(), request);
     }
 
 }
