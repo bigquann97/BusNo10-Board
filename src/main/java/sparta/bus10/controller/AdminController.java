@@ -20,7 +20,7 @@ public class AdminController {
     // http://localhost:8080/api/admin/posts/1 - Header Token값을 넣어서 보내줘요 Authorization : Bearer aivbi3
     // 어드민 권한 게시글 수정
     @PutMapping("/posts/{postId}") // Spring Annocation
-    @PreAuthorize('hasRole("ROLE_ADMIN")')
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deletePostByAdmin(@PathVariable Long postId, @AuthenticationPrincipal UserDetails userDetails) {
         adminService.deletePostByAdmin(postId);
     }
