@@ -9,12 +9,17 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 public class CommentResponseDto {
+
+    private Long commentId;
     private String userName;
     private String commentContent;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
+
+
     public CommentResponseDto(Comment comment) {
+        this.commentId = comment.getCommentId();
         this.userName = comment.getUsername();
         this.commentContent = comment.getCommentContent();
         this.createdAt = comment.getCreatedAt();
