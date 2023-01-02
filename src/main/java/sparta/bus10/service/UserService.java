@@ -34,7 +34,7 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(password);
 
-        UserRoleEnum role = UserRoleEnum.ROLE_USER;
+        UserRoleEnum role = UserRoleEnum.USER;
         User user = new User(username, encodedPassword, role);
         userRepository.save(user);
     }
