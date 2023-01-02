@@ -10,6 +10,7 @@ import sparta.bus10.entity.User;
 import sparta.bus10.entity.UserRoleEnum;
 import sparta.bus10.repository.UserRepository;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 @Service
@@ -32,13 +33,13 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(password);
 
-        UserRoleEnum role = UserRoleEnum.USER;
+        UserRoleEnum role = UserRoleEnum.ROLE_USER;
         User user = new User(username, encodedPassword, role);
         userRepository.save(user);
     }
 
     @Transactional(readOnly = true)
-    public void signin(SigninRequestDto signinRequestDto){
+    public void signin(SigninRequestDto signinRequestDto, HttpServletResponse response){
         String username = signinRequestDto.getUsername();
         String password = signinRequestDto.getPassword();
 
@@ -46,9 +47,12 @@ public class UserService {
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
 
-        if(! passwordEncoder.matches(password, user.getPassword())) {
+        if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
+
+        //로그인 로직
+        response.addHeader("Authorization", "Bearer otn239023"); // JWT 유효한 토큰값을 하나 주는게
     }
 
 }

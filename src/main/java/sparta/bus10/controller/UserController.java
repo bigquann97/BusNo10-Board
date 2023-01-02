@@ -9,6 +9,8 @@ import sparta.bus10.dto.SigninRequestDto;
 import sparta.bus10.dto.SignupRequestDto;
 import sparta.bus10.service.UserService;
 
+import javax.servlet.http.HttpServletResponse;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -21,8 +23,8 @@ public class UserController {
     }
 
     @PostMapping("api/auth/signin")
-    public void signin(@RequestBody SigninRequestDto signinRequestDto) {
-        userService.signin(signinRequestDto);
+    public void signin(@RequestBody SigninRequestDto signinRequestDto, HttpServletResponse response) {
+        userService.signin(signinRequestDto, response);
     }
 
 }
