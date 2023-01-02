@@ -51,26 +51,26 @@ public class PostService {
     }
 
     @Transactional
-    public void editPost(Long postId, PostRequestDto postrequestDto) {
-        // Post post = postRepository.findById(postId).orElseThrow(
-        //         () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
-        // );
-        // if (!post.getUsername().equals(postrequestDto.getUserName())) {
-        //     throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
-        // }
-        // post.changePost(postrequestDto.getUserName(), postrequestDto.getPostTitle(), postrequestDto.getPostContent());
-        // postRepository.save(post);
+    public void editPost(Long postId, PostRequestDto postrequestDto, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
+        );
+        if (!post.getUsername().equals(user.getUsername())) {
+            throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
+        }
+        post.changePost(user.getUsername(), postrequestDto.getPostTitle(), postrequestDto.getPostContent());
+        postRepository.save(post);
     }
 
     @Transactional
-    public void deletePost(Long postId, PostRequestDto postrequestDto) {
-        // Post post = postRepository.findById(postId).orElseThrow(
-        //         () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
-        // );
-        // if (!post.getUsername().equals(postrequestDto.getUserName())) {
-        //     throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
-        // }
-        // postRepository.delete(post);
+    public void deletePost(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
+        );
+        if (!post.getUsername().equals(user.getUsername())) {
+            throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
+        }
+        postRepository.delete(post);
     }
 
 }

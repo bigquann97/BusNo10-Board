@@ -11,12 +11,12 @@ import sparta.bus10.service.CommentService;
 @RestController
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 public class CommentController {
 
     private final CommentService commentService;
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public void createCommentService(
             @RequestParam Long postId,
             @RequestBody CommentRequestDto requestDto,
@@ -26,7 +26,6 @@ public class CommentController {
     }
 
     @PatchMapping("/{commentId}")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public void editComment(
 //            @PathVariable Long postId,
             @PathVariable Long commentId,
@@ -36,7 +35,6 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public void deleteComment(
 //            @PathVariable Long postId,
             @PathVariable Long commentId,
