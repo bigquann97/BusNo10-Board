@@ -1,9 +1,11 @@
 package sparta.bus10.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sparta.bus10.dto.PostRequestDto;
 import sparta.bus10.dto.PostResponseDto;
+import sparta.bus10.security.UserDetailsImpl;
 import sparta.bus10.service.PostService;
 
 import java.util.List;
