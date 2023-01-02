@@ -76,31 +76,4 @@ public class PostService {
         postRepository.delete(post);
     }
 
-    // @Transactional
-    // public void likePost(Long postId, User user) {
-    //     Post post = postRepository.findById(postId).orElseThrow(
-    //             () -> new IllegalArgumentException("게시물을 찾을 수 없습니다.")
-    //     );
-    //     Optional<Like> found = likeRepository.findByPostIdAndUserId(post.getPostId(), user.getId());
-    //
-    //     if(found.isPresent()){
-    //         throw new IllegalArgumentException("이미 좋아요 한 게시물입니다.");
-    //     }
-    //     Like like = new Like(post.getPostId(),null, user.getId());
-    //
-    //     likeRepository.save(like);
-    // }
-    //
-    // @Transactional
-    // public void unlikePost(Long postId, User user){
-    //     Post post = postRepository.findById(postId).orElseThrow(
-    //             () -> new IllegalArgumentException("게시물을 찾을 수 없습니다.")
-    //     );
-    //     Optional<Like> like = likeRepository.findByPostIdAndUserId(post.getPostId(), user.getId());
-    //     if(!like.isPresent()){
-    //         throw new IllegalArgumentException("좋아요를 하지 않은 게시물입니다.");
-    //     }
-    //
-    //     likeRepository.delete(like.get());
-    // }
 }
