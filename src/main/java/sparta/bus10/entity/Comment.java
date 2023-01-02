@@ -2,10 +2,8 @@ package sparta.bus10.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sparta.bus10.dto.CommentResponseDto;
 
 import javax.persistence.*;
-import java.security.PrivateKey;
 
 @Entity
 @Getter
@@ -25,7 +23,7 @@ public class Comment extends Timestamp {
     @Column(nullable = false)
     private String commentContent;
 
-    private Integer depth;
+    private boolean isReply;
 
     private Long parentCommentId;
 
@@ -33,15 +31,15 @@ public class Comment extends Timestamp {
         this.postId = postId;
         this.username = requestUsername;
         this.commentContent = requestCommentContent;
-        this.depth = 0;
+        this.isReply = false;
         this.parentCommentId = null;
     }
 
-    public Comment(Long postId, String requestUsername,String requestCommentContent, Integer depth, Long parentCommentId){
+    public Comment(Long postId, String requestUsername, String requestCommentContent, boolean isReply, Long parentCommentId){
         this.postId = postId;
         this.username = requestUsername;
         this.commentContent = requestCommentContent;
-        this.depth = depth;
+        this.isReply = isReply;
         this.parentCommentId = parentCommentId;
     }
 

@@ -26,6 +26,10 @@ public class CommentResponseDto {
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
     }
+
+    public void addReply(CommentResponseDto reply) {
+        this.replies.add(reply);
+    }
 }
 
 //코멘트 생성시 같은아이디로 2개의 댓글 생성불가

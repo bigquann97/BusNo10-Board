@@ -24,11 +24,12 @@ public class PostResponseDto {
     public PostResponseDto(Post post, List<Comment> comments) {
         Map<Long, CommentResponseDto> tempList = new HashMap<>();
         for (Comment comment : comments) {
-            if(comment.getDepth() == 1) {
+            if(comment.isReply()) {
                 Long parentId = comment.getParentCommentId();
                 CommentResponseDto target = tempList.get(parentId);
                 CommentResponseDto reply = new CommentResponseDto(comment);
-                target.getReplies().add(reply);
+                target.addReply(reply);
+                continue;
             }
 
             Long id = comment.getCommentId();
