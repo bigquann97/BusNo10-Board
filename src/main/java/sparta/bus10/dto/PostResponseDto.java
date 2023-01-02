@@ -23,6 +23,9 @@ public class PostResponseDto {
 
     public PostResponseDto(Post post, List<Comment> comments) {
         for (Comment comment : comments) {
+            if(comment.getDepth() >= 0) {
+
+            }
             CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
             commentList.add(commentResponseDto);
         }
