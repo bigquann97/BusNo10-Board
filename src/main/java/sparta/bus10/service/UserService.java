@@ -8,6 +8,7 @@ import sparta.bus10.dto.SigninRequestDto;
 import sparta.bus10.dto.SignupRequestDto;
 import sparta.bus10.entity.User;
 import sparta.bus10.entity.UserRoleEnum;
+import sparta.bus10.jwt.JwtUtil;
 import sparta.bus10.repository.UserRepository;
 
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
+    private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -51,8 +52,7 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        //로그인 로직
-        response.addHeader("Authorization", "Bearer otn239023"); // JWT 유효한 토큰값을 하나 주는게
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(), user.getRole()));
     }
 
 }
