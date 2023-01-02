@@ -9,40 +9,40 @@ import sparta.bus10.security.UserDetailsImpl;
 import sparta.bus10.service.CommentService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/posts/{postId}/comments")
+    @PostMapping
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public void createCommentService(
-            @PathVariable Long postId,
+            @RequestParam Long postId,
             @RequestBody CommentRequestDto requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         commentService.createCommentService(postId, requestDto, userDetails.getUser());
     }
 
-    @PutMapping("/posts/{postId}/comments/{commentId}")
+    @PatchMapping("/{commentId}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public void editComment(
-            @PathVariable Long postId,
+//            @PathVariable Long postId,
             @PathVariable Long commentId,
             @RequestBody CommentRequestDto commentrequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.editComment(postId, commentId, commentrequestDto, userDetails.getUser());
+        commentService.editComment(commentId, commentrequestDto, userDetails.getUser());
     }
 
-    @DeleteMapping("/posts/{postId}/comments/{commentId}")
+    @DeleteMapping("/{commentId}")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public void deleteComment(
-            @PathVariable Long postId,
+//            @PathVariable Long postId,
             @PathVariable Long commentId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-        commentService.deleteComment(postId, commentId, userDetails.getUser());
+        commentService.deleteComment(commentId, userDetails.getUser());
     }
 
 }
