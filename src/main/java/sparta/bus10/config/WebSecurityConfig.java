@@ -36,7 +36,8 @@ public class WebSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션이 필요하면 생성하도록 셋팅
                 .authorizeHttpRequests()
                         .antMatchers("/h2-console/**").permitAll()
-                        .anyRequest().permitAll()
+                        .antMatchers("/api/auth/**").permitAll()
+                        .anyRequest().authenticated()
                         .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class); // JWT 인증/인가를 사용하기 위한 설정
         return http.build();
     }

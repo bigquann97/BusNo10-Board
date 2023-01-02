@@ -11,7 +11,7 @@ import sparta.bus10.service.PostService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostController {
 
@@ -22,22 +22,22 @@ public class PostController {
         postService.createPost(postrequestDto, userDetails.getUser());
     }
 
-    @GetMapping("/posts")
+    @GetMapping
     public List<PostResponseDto> getPostAll() {
         return postService.getPostAll();
     }
 
-    @GetMapping("/posts/{postId}")
+    @GetMapping("/{postId}")
     public PostResponseDto getPostOne(@PathVariable Long postId) {
         return postService.getPostOne(postId);
     }
 
-    @PutMapping("/posts/{postId}")
+    @PatchMapping("/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
         postService.editPost(postId, postrequestDto);
     }
 
-    @DeleteMapping("/posts/{postId}")
+    @DeleteMapping("/{postId}")
     public void deletePost(@PathVariable Long postId, @RequestBody PostRequestDto postrequestDto) {
         postService.deletePost(postId, postrequestDto);
     }
