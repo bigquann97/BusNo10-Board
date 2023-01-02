@@ -6,13 +6,16 @@ import org.springframework.transaction.annotation.Transactional;
 import sparta.bus10.dto.PostRequestDto;
 import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.entity.Comment;
+import sparta.bus10.entity.Like;
 import sparta.bus10.entity.Post;
 import sparta.bus10.entity.User;
 import sparta.bus10.repository.CommentRepository;
+import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

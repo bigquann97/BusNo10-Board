@@ -43,6 +43,5 @@ public class PostController {
     public void deletePost(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         postService.deletePost(postId, userDetails.getUser());
     }
-
 }
 

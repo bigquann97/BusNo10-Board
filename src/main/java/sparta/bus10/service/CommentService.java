@@ -5,9 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sparta.bus10.dto.CommentRequestDto;
 import sparta.bus10.entity.Comment;
+import sparta.bus10.entity.Like;
+import sparta.bus10.entity.Post;
 import sparta.bus10.entity.User;
 import sparta.bus10.repository.CommentRepository;
+import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
