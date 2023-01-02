@@ -23,7 +23,7 @@ public class MyController {
     private final MyService myService;
 
     @GetMapping("/posts")
-    public ArrayList<PostResponseDto> myPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public List<PostResponseDto> myPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myService.getMyPosts(userDetails.getUsername());
     }
 
@@ -31,10 +31,12 @@ public class MyController {
     public List<CommentResponseDto> myComments(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myService.getMyComments(userDetails.getUsername());
     }
+
     @GetMapping("/like-posts")
     public List<PostResponseDto> myLikedPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myService.getMyLikedPosts(userDetails.getUser().getId());
     }
+
     @GetMapping("/like-comments")
     public List<CommentResponseDto> myLikedComments(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return myService.getMyLikedComments(userDetails.getUser().getId());

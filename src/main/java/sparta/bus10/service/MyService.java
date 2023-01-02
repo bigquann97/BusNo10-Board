@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import sparta.bus10.dto.CommentResponseDto;
 import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.entity.Comment;
+import sparta.bus10.entity.Like;
 import sparta.bus10.entity.Post;
 import sparta.bus10.repository.CommentRepository;
+import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
 
 import java.util.ArrayList;
@@ -18,10 +20,9 @@ public class MyService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    private final PostLikeRepository postLikeRepository;
-    private final CommentLikeRepository commentLikeRepository;
+    private final LikeRepository likeRepository;
 
-    public ArrayList<PostResponseDto> getMyPosts(String username) {
+    public List<PostResponseDto> getMyPosts(String username) {
         List<Post> posts = postRepository.findPostsByUsernameOrderByCreatedAt(username);
         List<PostResponseDto> result = new ArrayList<>();
         for (Post post : posts) {
@@ -44,11 +45,11 @@ public class MyService {
     }
 
     public List<PostResponseDto> getMyLikedPosts(Long userId) {
-        List<PostLike> postLikes = postLikeRepository.findLikesByUserId(userId);
+        List<Like> postLikes = likeRepository.findByUserIdAndCommentId(userId, null);
         List<PostResponseDto> response = new ArrayList<>();
-        for (PostLike postLike : postLikes) {
+        for (Like postLike : postLikes) {
             Long postId = postLike.getPostId();
-            Post post = postRepository.findById(postId).orElseThrow("게시물 없음");
+            Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("게시물 없음"));
             List<Comment> comments = commentRepository.findByPostId(postId);
             PostResponseDto postResponseDto = new PostResponseDto(post, comments);
             response.add(postResponseDto);
@@ -57,11 +58,11 @@ public class MyService {
     }
 
     public List<CommentResponseDto> getMyLikedComments(Long userId) {
-        List<CommentLike> commentLikes = commentLikeRepository.findLikesByUserId(userId);
+        List<Like> commentLikes = likeRepository.findByUserIdAndPostId(userId, null);
         List<CommentResponseDto> response = new ArrayList<>();
-        for (CommentLike commentLike : commentLikes) {
+        for (Like commentLike : commentLikes) {
             Long commentId = commentLike.getCommentId();
-            Comment comment = commentRepository.findById(commentId).orElseThrow(new IllegalArgumentException("댓글 없음"));
+            Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
             CommentResponseDto dto = new CommentResponseDto(comment);
             response.add(dto);
         }
