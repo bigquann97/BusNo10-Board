@@ -34,7 +34,7 @@ public class UserService {
 
         String encodedPassword = passwordEncoder.encode(password);
 
-        UserRoleEnum role = UserRoleEnum.USER;
+        UserRoleEnum role = UserRoleEnum.ROLE_USER;
         User user = new User(username, encodedPassword, role);
         userRepository.save(user);
     }
@@ -48,7 +48,7 @@ public class UserService {
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
 
-        if(! passwordEncoder.matches(password, user.getPassword())) {
+        if(!passwordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
