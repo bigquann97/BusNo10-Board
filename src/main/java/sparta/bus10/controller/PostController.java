@@ -20,7 +20,6 @@ public class PostController {
         postService.createPost(postrequestDto);
     }
 
-
     @GetMapping("/posts")
     public List<PostResponseDto> getPostAll() {
         return postService.getPostAll();

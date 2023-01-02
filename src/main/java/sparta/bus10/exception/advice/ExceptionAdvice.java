@@ -29,6 +29,4 @@ public class ExceptionAdvice {
         return new RestApiException(Status.F_INVALID_TOKEN);
     }
 
-
-
 }
