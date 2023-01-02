@@ -43,5 +43,14 @@ public class CommentController {
         commentService.deleteComment(commentId, userDetails.getUser());
     }
 
+    @PostMapping("/{commentId}")
+    public void createReply(
+            @PathVariable Long commentId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @RequestBody CommentRequestDto request
+    ) {
+        commentService.createReply(commentId, userDetails,request);
+    }
+
 }
 

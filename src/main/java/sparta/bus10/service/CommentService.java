@@ -11,6 +11,7 @@ import sparta.bus10.entity.User;
 import sparta.bus10.repository.CommentRepository;
 import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
+import sparta.bus10.security.UserDetailsImpl;
 
 import java.util.Optional;
 
@@ -63,4 +64,10 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
+    @Transactional
+    public void createReply(Long commentId, UserDetailsImpl userDetails, CommentRequestDto request) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
+        Comment reply = new Comment(comment.getPostId(), request.getCommentContent(), request.getCommentContent(), comment.getDepth() + 1, comment.getCommentId());
+        commentRepository.save(reply);
+    }
 }

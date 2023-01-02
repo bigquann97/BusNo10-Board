@@ -25,10 +25,24 @@ public class Comment extends Timestamp {
     @Column(nullable = false)
     private String commentContent;
 
+    private Integer depth;
+
+    private Long parentCommentId;
+
     public Comment(Long postId, String requestUsername,String requestCommentContent){
         this.postId = postId;
         this.username = requestUsername;
         this.commentContent = requestCommentContent;
+        this.depth = 0;
+        this.parentCommentId = null;
+    }
+
+    public Comment(Long postId, String requestUsername,String requestCommentContent, Integer depth, Long parentCommentId){
+        this.postId = postId;
+        this.username = requestUsername;
+        this.commentContent = requestCommentContent;
+        this.depth = depth;
+        this.parentCommentId = parentCommentId;
     }
 
     public void changeComment(String requestComment){
