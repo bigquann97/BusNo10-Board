@@ -5,11 +5,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import sparta.bus10.entity.Comment;
-import sparta.bus10.entity.Post;
-import sparta.bus10.entity.User;
-import sparta.bus10.entity.UserRoleEnum;
+import sparta.bus10.entity.*;
 import sparta.bus10.repository.CommentRepository;
+import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
 import sparta.bus10.repository.UserRepository;
 
