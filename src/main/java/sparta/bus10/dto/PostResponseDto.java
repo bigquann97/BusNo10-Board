@@ -12,6 +12,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class PostResponseDto {
+
+    private Long postId;
     private String userName;
     private String postTitle;
     private String postContent;
@@ -24,6 +26,7 @@ public class PostResponseDto {
             CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
             commentList.add(commentResponseDto);
         }
+        this.postId = post.getPostId();
         this.userName = post.getUsername();
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
