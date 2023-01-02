@@ -22,7 +22,6 @@ public class PostController {
         postService.createPost(postrequestDto, userDetails.getUser());
     }
 
-
     @GetMapping("/posts")
     public List<PostResponseDto> getPostAll() {
         return postService.getPostAll();
