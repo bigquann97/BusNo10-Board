@@ -12,19 +12,18 @@ public class Like extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // Like : Post id를 가지고 있어야 함.
-    // Like : User id를 가지고 있어야 함.
-    // User : Like 리스트를 불러와야 함.
-    // Post : like 개수를 불러와야 함.
-    @Column(nullable = false)
+    @Column
     private Long postId;
+    @Column
+    private Long commentId;
     @Column(nullable = false)
     private Long userId;
 
 
-    public Like(Long postId, Long userId) {
+    public Like(Long postId, Long commentId, Long userId) {
         this.postId = postId;
+        this.commentId = commentId;
         this.userId = userId;
     }
+
 }
