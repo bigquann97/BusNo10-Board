@@ -43,5 +43,15 @@ public class CommentController {
         commentService.deleteComment(commentId, userDetails.getUser());
     }
 
+    @PostMapping("/{commentId}/like")
+    public void likeComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        commentService.likeComment(commentId, userDetails.getUser());
+    }
+
+    @PostMapping("/{commentId}/unlike")
+    public void unlikeComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        commentService.unlikeComment(commentId, userDetails.getUser());
+    }
+
 }
 
