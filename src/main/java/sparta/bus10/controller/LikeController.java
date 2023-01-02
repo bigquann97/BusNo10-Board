@@ -14,25 +14,25 @@ import sparta.bus10.service.PostService;
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
 public class LikeController {
-    private final LikeService likePost;
+    private final LikeService likeService;
 
     @PostMapping("/post")
     public void likePost(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        likePost.likePost(id, userDetails.getUser());
+        likeService.likePost(id, userDetails.getUser());
     }
 
     @DeleteMapping("/post")
     public void unlikePost(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        likePost.unlikePost(id, userDetails.getUser());
+        likeService.unlikePost(id, userDetails.getUser());
     }
 
     @PostMapping("/comment")
     public void likeComment(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        likePost.likeComment(id, userDetails.getUser());
+        likeService.likeComment(id, userDetails.getUser());
     }
 
     @DeleteMapping("/comment")
     public void unlikeComment(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
-        likePost.unlikeComment(id, userDetails.getUser());
+        likeService.unlikeComment(id, userDetails.getUser());
     }
 }
