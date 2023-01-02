@@ -20,7 +20,6 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
-    private final LikeRepository likeRepository;
 
     @Transactional
     public void createCommentService(Long postId, CommentRequestDto commentrequestDto, User user) {
@@ -64,27 +63,4 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
-    public void likeComment(Long commentId, User user) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
-        );
-        Optional<Like> found = likeRepository.findByCommentIdAndUserId(comment.getCommentId(), user.getId());
-        if(found.isPresent()){
-            throw new IllegalArgumentException("이미 좋아요 한 댓글입니다.");
-        }
-        Like like = new Like(null, comment.getCommentId(), user.getId());
-        likeRepository.save(like);
-    }
-
-    public void unlikeComment(Long commentId, User user) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
-        );
-        Optional<Like> like = likeRepository.findByCommentIdAndUserId(comment.getCommentId(), user.getId());
-        if(!like.isPresent()){
-            throw new IllegalArgumentException("좋아요를 하지 않은 댓글입니다.");
-        }
-
-        likeRepository.delete(like.get());
-    }
 }
