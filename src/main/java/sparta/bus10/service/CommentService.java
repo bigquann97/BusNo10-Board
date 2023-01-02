@@ -63,4 +63,10 @@ public class CommentService {
         commentRepository.delete(comment);
     }
 
+    @Transactional
+    public void createReply(Long commentId, User user, CommentRequestDto request) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
+        Comment reply = new Comment(comment.getPostId(), user.getUsername(), request.getCommentContent(), true, comment.getCommentId());
+        commentRepository.save(reply);
+    }
 }

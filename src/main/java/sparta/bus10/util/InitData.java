@@ -36,7 +36,6 @@ public class InitData implements ApplicationRunner {
         Comment comment3 = new Comment(1L, "imsoo", "수 아임 수");
         Comment comment13 = new Comment(1L, "sparta", "나는 관리자 르탄이");
 
-
         Comment comment4 = new Comment(2L, "gwanho", "김관호랑이");
         Comment comment5 = new Comment(2L, "jaewon", "재원 메롱 하고 감");
         Comment comment6 = new Comment(2L, "imsoo", "수 아임 수");
@@ -52,9 +51,12 @@ public class InitData implements ApplicationRunner {
         Comment comment12 = new Comment(4L, "jaewon", "재원 메롱 하고 감");
         Comment comment16 = new Comment(4L, "sparta", "나는 관리자 르탄이");
 
+        Comment comment17 = new Comment(1L, "gwanho", "댓글 남겨주셔서 감사합니다~", true, 1L);
+        Comment comment18 = new Comment(1L, "imsoo", "저도 놀고 갑니다", true, 1L);
+
         Iterable<Comment> comments = new ArrayList<>(List.of(
                 comment1, comment2, comment3, comment4, comment5, comment6, comment7, comment8, comment9, comment10, comment11, comment12,
-                comment13, comment14, comment15, comment16
+                comment13, comment14, comment15, comment16, comment17, comment18
         ));
 
         commentRepository.saveAll(comments);

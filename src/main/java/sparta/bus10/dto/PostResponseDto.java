@@ -6,8 +6,8 @@ import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Post;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -22,10 +22,23 @@ public class PostResponseDto {
     private List<CommentResponseDto> commentList = new ArrayList<>();
 
     public PostResponseDto(Post post, List<Comment> comments) {
+        Map<Long, CommentResponseDto> tempList = new HashMap<>();
         for (Comment comment : comments) {
-            CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
-            commentList.add(commentResponseDto);
+            if(comment.isReply()) {
+                Long parentId = comment.getParentCommentId();
+                CommentResponseDto target = tempList.get(parentId);
+                CommentResponseDto reply = new CommentResponseDto(comment);
+                target.addReply(reply);
+                continue;
+            }
+
+            Long id = comment.getCommentId();
+            CommentResponseDto response = new CommentResponseDto(comment);
+            tempList.put(id, response);
+//            CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
+//            commentList.add(commentResponseDto);
         }
+        this.commentList = tempList.values().stream().sorted(Comparator.comparing(CommentResponseDto::getCreatedAt)).collect(Collectors.toList());
         this.postId = post.getPostId();
         this.userName = post.getUsername();
         this.postTitle = post.getPostTitle();
