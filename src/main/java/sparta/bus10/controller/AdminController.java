@@ -34,14 +34,14 @@ public class AdminController {
     // 어드민 권한 댓글 삭제 - deleteCommentByAdmin
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteCommentByAdmin(@PathVariable Long postId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetails userDetails) {
+    public void deleteCommentByAdmin(@PathVariable Long postId, @PathVariable Long commentId) {
         adminService.deleteCommentByAdmin(postId, commentId);
     }
 
     // 어드민 권한 댓글 수정 - editCommentByAdmin
     @PutMapping("/posts/{postId}/comments/{commentId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-            public void editCommentByAdmin(@PathVariable Long postId, @PathVariable Long commentId, @AuthenticationPrincipal UserDetails userDetails, @RequestBody CommentRequestDto commentRequestDto) {
+    public void editCommentByAdmin(@PathVariable Long postId, @PathVariable Long commentId, @RequestBody CommentRequestDto commentRequestDto) {
         adminService.editCommentByAdmin(postId, commentId, commentRequestDto);
     }
 
