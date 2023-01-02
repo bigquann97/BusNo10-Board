@@ -25,16 +25,15 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
                 http.csrf().disable();
-                http.headers().frameOptions().disable();
+                http.headers().frameOptions().disable(); // 해당 페이지를 <frame> 또는<iframe>, <object> 에서 렌더링할 수 있는지 여부
 
                 http.sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션이 필요하면 생성하도록 셋팅
                 .authorizeHttpRequests()
                         .antMatchers("/h2-console/**").permitAll()
                         .anyRequest().permitAll();
         return http.build();
     }
-
 }
 
 /*
