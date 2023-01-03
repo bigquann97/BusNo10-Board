@@ -27,7 +27,7 @@ public class PostService {
     @Transactional
     public void createPost(PostRequestDto postrequestDto, User user) {
         System.out.println(user.getUsername());
-        Post post = new Post(user.getUsername(), postrequestDto.getPostTitle(), postrequestDto.getPostContent());
+        Post post = new Post(user, postrequestDto.getPostTitle(), postrequestDto.getPostContent());
         postRepository.save(post);
     }
 
@@ -36,8 +36,7 @@ public class PostService {
         List<Post> posts = postRepository.findAll();
         List<PostResponseDto> resultPosts = new ArrayList<>();
         for (Post post : posts) {
-            Long postId = post.getPostId();
-            List<Comment> comments = commentRepository.findByPostId(postId);
+            List<Comment> comments = commentRepository.findByPost(post);
             PostResponseDto postResponseDto = new PostResponseDto(post, comments);
             resultPosts.add(postResponseDto);
         }
@@ -48,9 +47,8 @@ public class PostService {
     public PostResponseDto getPostOne(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
-        List<Comment> comment = commentRepository.findByPostId(postId);
-        PostResponseDto postResponseDto = new PostResponseDto(post, comment);
-        return postResponseDto;
+        List<Comment> comment = commentRepository.findByPost(post);
+        return new PostResponseDto(post, comment);
     }
 
     @Transactional
@@ -58,10 +56,10 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
-        if (!post.getUsername().equals(user.getUsername())) {
+        if (!post.validateUser(user)) {
             throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
         }
-        post.changePost(user.getUsername(), postrequestDto.getPostTitle(), postrequestDto.getPostContent());
+        post.changePost(user, postrequestDto.getPostTitle(), postrequestDto.getPostContent());
         postRepository.save(post);
     }
 
@@ -70,9 +68,13 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
-        if (!post.getUsername().equals(user.getUsername())) {
+        System.out.println("a");
+        if (!post.validateUser(user)) {
             throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
         }
+        System.out.println("b");
+        long count = commentRepository.deleteByPost(post);
+        System.out.println(count);
         postRepository.delete(post);
     }
 

@@ -3,12 +3,15 @@ package sparta.bus10.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 import sparta.bus10.entity.Comment;
+import sparta.bus10.entity.Post;
+import sparta.bus10.entity.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    List<Comment> findByUsername(@NonNull String username);
-    Optional<Comment> findByCommentIdAndUsername(@NonNull Long commentId, @NonNull String username);
-    List<Comment> findByPostId(@NonNull Long postId);
+    long deleteByPost(@NonNull Post post);
+    List<Comment> findByUser(@NonNull User user);
+    Optional<Comment> findByIdAndUser(@NonNull Long id, @NonNull User user);
+    List<Comment> findByPost(@NonNull Post post);
 }

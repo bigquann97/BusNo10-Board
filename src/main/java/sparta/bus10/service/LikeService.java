@@ -25,12 +25,12 @@ public class LikeService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시물을 찾을 수 없습니다.")
         );
-        Optional<Like> found = likeRepository.findByPostIdAndUserId(post.getPostId(), user.getId());
+        Optional<Like> found = likeRepository.findByPostAndUser(post, user);
 
         if(found.isPresent()){
             throw new IllegalArgumentException("이미 좋아요 한 게시물입니다.");
         }
-        Like like = new Like(post.getPostId(),null, user.getId());
+        Like like = new Like(post,null, user);
 
         likeRepository.save(like);
     }
@@ -40,7 +40,7 @@ public class LikeService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시물을 찾을 수 없습니다.")
         );
-        Optional<Like> like = likeRepository.findByPostIdAndUserId(post.getPostId(), user.getId());
+        Optional<Like> like = likeRepository.findByPostAndUser(post, user);
         if(!like.isPresent()){
             throw new IllegalArgumentException("좋아요를 하지 않은 게시물입니다.");
         }
@@ -52,11 +52,11 @@ public class LikeService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
         );
-        Optional<Like> found = likeRepository.findByCommentIdAndUserId(comment.getCommentId(), user.getId());
+        Optional<Like> found = likeRepository.findByCommentAndUser(comment, user);
         if(found.isPresent()){
             throw new IllegalArgumentException("이미 좋아요 한 댓글입니다.");
         }
-        Like like = new Like(null, comment.getCommentId(), user.getId());
+        Like like = new Like(null, comment, user);
         likeRepository.save(like);
     }
 
@@ -64,7 +64,7 @@ public class LikeService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
         );
-        Optional<Like> like = likeRepository.findByCommentIdAndUserId(comment.getCommentId(), user.getId());
+        Optional<Like> like = likeRepository.findByCommentAndUser(comment, user);
         if(!like.isPresent()){
             throw new IllegalArgumentException("좋아요를 하지 않은 댓글입니다.");
         }
