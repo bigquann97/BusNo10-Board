@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+    List<Comment> findByParentCommentId(@NonNull Long parentCommentId);
     long deleteByPost(@NonNull Post post);
     List<Comment> findByUser(@NonNull User user);
     Optional<Comment> findByIdAndUser(@NonNull Long id, @NonNull User user);

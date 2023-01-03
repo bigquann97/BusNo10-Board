@@ -9,6 +9,7 @@ import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Post;
 import sparta.bus10.entity.User;
 import sparta.bus10.repository.CommentRepository;
+import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public void createPost(PostRequestDto postrequestDto, User user) {
@@ -65,13 +67,11 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
-        System.out.println("a");
         if (!post.validateUser(user)) {
             throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
         }
-        System.out.println("b");
-        long count = commentRepository.deleteByPost(post);
-        System.out.println(count);
+        likeRepository.deleteByPost(post);
+        commentRepository.deleteByPost(post);
         postRepository.delete(post);
     }
 
