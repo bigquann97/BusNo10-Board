@@ -3,7 +3,6 @@ package sparta.bus10.service.manager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sparta.bus10.dto.UserDto;
 import sparta.bus10.entity.Apply;
 import sparta.bus10.entity.User;
 import sparta.bus10.entity.UserRoleEnum;

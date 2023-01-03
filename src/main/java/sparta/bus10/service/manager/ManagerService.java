@@ -1,6 +1,4 @@
 package sparta.bus10.service.manager;
-
-import sparta.bus10.dto.UserDto;
 import sparta.bus10.entity.Apply;
 import sparta.bus10.entity.User;
 
