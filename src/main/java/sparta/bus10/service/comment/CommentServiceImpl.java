@@ -66,6 +66,7 @@ public class CommentServiceImpl implements CommentService {
         }
         commentRepository.deleteAll(replies);
         commentRepository.delete(comment);
+        likeRepository.deleteByComment(comment);
     }
 
     @Transactional

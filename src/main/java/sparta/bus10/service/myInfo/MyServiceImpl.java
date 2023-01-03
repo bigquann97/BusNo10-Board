@@ -30,7 +30,8 @@ public class MyServiceImpl implements MyService {
         List<PostResponseDto> result = new ArrayList<>();
         for (Post post : posts) {
             List<Comment> comments = commentRepository.findByPost(post);
-            PostResponseDto postResponseDto = new PostResponseDto(post, comments);
+            int postLikeCount = likeRepository.countByPost(post);
+            PostResponseDto postResponseDto = new PostResponseDto(post, comments,postLikeCount);
             result.add(postResponseDto);
         }
         return result;
@@ -41,7 +42,8 @@ public class MyServiceImpl implements MyService {
         List<Comment> comments = commentRepository.findByUser(user);
         List<CommentResponseDto> commentDtos = new ArrayList<>();
         for (Comment comment : comments) {
-            CommentResponseDto dto = new CommentResponseDto(comment);
+            int commentLikeCount = likeRepository.countByComment(comment);
+            CommentResponseDto dto = new CommentResponseDto(comment,commentLikeCount);
             commentDtos.add(dto);
         }
         return commentDtos;
@@ -54,7 +56,8 @@ public class MyServiceImpl implements MyService {
         for (Like postLike : postLikes) {
             Post post = postLike.getPost();
             List<Comment> comments = commentRepository.findByPost(post);
-            PostResponseDto postResponseDto = new PostResponseDto(post, comments);
+            int postLikeCount = likeRepository.countByPost(post);
+            PostResponseDto postResponseDto = new PostResponseDto(post, comments,postLikeCount);
             response.add(postResponseDto);
         }
         return response;
@@ -66,7 +69,8 @@ public class MyServiceImpl implements MyService {
         List<CommentResponseDto> response = new ArrayList<>();
         for (Like commentLike : commentLikes) {
             Comment comment = commentLike.getComment();
-            CommentResponseDto dto = new CommentResponseDto(comment);
+            int commentLikeCount = likeRepository.countByComment(comment);
+            CommentResponseDto dto = new CommentResponseDto(comment,commentLikeCount);
             response.add(dto);
         }
         return response;

@@ -15,16 +15,20 @@ public class CommentResponseDto {
     private Long commentId;
     private String userName;
     private String commentContent;
+    private int commnetLikecount = 0;
     private List<CommentResponseDto> replies = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public CommentResponseDto(Comment comment) {
+
+
+    public CommentResponseDto(Comment comment,int likeComment) {
         this.commentId = comment.getId();
         this.userName = comment.getUser().getUsername();
         this.commentContent = comment.getCommentContent();
         this.createdAt = comment.getCreatedAt();
         this.modifiedAt = comment.getModifiedAt();
+        this.commnetLikecount = likeComment;
     }
 
     public void addReply(CommentResponseDto reply) {

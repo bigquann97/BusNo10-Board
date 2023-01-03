@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Post;
+import sparta.bus10.repository.LikeRepository;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -19,9 +20,10 @@ public class PostResponseDto {
     private String postContent;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private int postLikeCount = 0;
     private List<CommentResponseDto> commentList = new ArrayList<>();
 
-    public PostResponseDto(Post post, List<Comment> comments) {
+    public PostResponseDto(Post post, List<Comment> comments,int likePost) {
         Map<Long, CommentResponseDto> tempList = new HashMap<>();
         for (Comment comment : comments) {
             if(comment.isReply()) {
@@ -45,5 +47,6 @@ public class PostResponseDto {
         this.postContent = post.getPostContent();
         this.createdAt = post.getCreatedAt();
         this.modifiedAt = post.getModifiedAt();
+        this.postLikeCount = likePost;
     }
 }

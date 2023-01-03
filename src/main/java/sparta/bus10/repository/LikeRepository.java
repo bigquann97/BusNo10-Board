@@ -19,4 +19,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     List<Like> findByUserAndCommentNotNull(@NonNull User user);
     Optional<Like> findByPostAndUser(Post post, User user);
     Optional<Like> findByCommentAndUser(Comment comment, User user);
+    int countByPost(Post post);
+    int countByComment(Comment comment);
 }
