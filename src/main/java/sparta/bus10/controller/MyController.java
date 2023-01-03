@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/api/my-info")
 @RestController
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 public class MyController {
 
     private final MyService myService;
