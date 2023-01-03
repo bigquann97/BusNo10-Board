@@ -1,4 +1,4 @@
-package sparta.bus10.service;
+package sparta.bus10.service.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,11 +12,12 @@ import sparta.bus10.repository.PostRepository;
 
 @Service
 @RequiredArgsConstructor
-public class AdminService {
+public class AdminServiceImpl implements AdminService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
 
+    @Override
     @Transactional
     public void editPostByAdmin(Long postId, PostRequestDto postRequestDto) {
         Post post = postRepository.findById(postId).orElseThrow(
@@ -26,12 +27,14 @@ public class AdminService {
         postRepository.save(post);
     }
 
+    @Override
     @Transactional
     public void deletePostByAdmin(Long postId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("해당 게시물 없음"));
         postRepository.delete(post);
     }
 
+    @Override
     @Transactional
     public void editCommentByAdmin(Long commentId, CommentRequestDto commentRequestDto){
         Comment comment = commentRepository.findById(commentId).orElseThrow(
@@ -41,6 +44,7 @@ public class AdminService {
         commentRepository.save(comment);
     }
 
+    @Override
     @Transactional
     public void deleteCommentByAdmin(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(

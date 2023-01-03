@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import sparta.bus10.dto.CommentResponseDto;
 import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.security.UserDetailsImpl;
-import sparta.bus10.service.MyService;
+import sparta.bus10.service.myInfo.MyService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/api/my-info")

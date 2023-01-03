@@ -1,4 +1,4 @@
-package sparta.bus10.service;
+package sparta.bus10.service.like;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class LikeService {
+public class LikeServiceImpl implements LikeService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
@@ -48,6 +48,7 @@ public class LikeService {
         likeRepository.delete(like.get());
     }
 
+    @Transactional
     public void likeComment(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
@@ -60,6 +61,7 @@ public class LikeService {
         likeRepository.save(like);
     }
 
+    @Transactional
     public void unlikeComment(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")

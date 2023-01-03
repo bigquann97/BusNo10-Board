@@ -5,9 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sparta.bus10.security.UserDetailsImpl;
-import sparta.bus10.service.CommentService;
-import sparta.bus10.service.LikeService;
-import sparta.bus10.service.PostService;
+import sparta.bus10.service.like.LikeService;
 
 @RestController
 @RequestMapping("/api/likes")

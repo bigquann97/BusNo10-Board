@@ -1,7 +1,8 @@
-package sparta.bus10.service;
+package sparta.bus10.service.myInfo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sparta.bus10.dto.CommentResponseDto;
 import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.entity.Comment;
@@ -17,12 +18,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MyService {
+public class MyServiceImpl implements MyService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
 
+    @Transactional(readOnly = true)
     public List<PostResponseDto> getMyPosts(User user) {
         List<Post> posts = postRepository.findPostsByUserOrderByCreatedAt(user);
         List<PostResponseDto> result = new ArrayList<>();
@@ -34,6 +36,7 @@ public class MyService {
         return result;
     }
 
+    @Transactional(readOnly = true)
     public List<CommentResponseDto> getMyComments(User user) {
         List<Comment> comments = commentRepository.findByUser(user);
         List<CommentResponseDto> commentDtos = new ArrayList<>();
@@ -44,6 +47,7 @@ public class MyService {
         return commentDtos;
     }
 
+    @Transactional(readOnly = true)
     public List<PostResponseDto> getMyLikedPosts(User user) {
         List<Like> postLikes = likeRepository.findByUserAndComment(user, null);
         List<PostResponseDto> response = new ArrayList<>();
@@ -56,6 +60,7 @@ public class MyService {
         return response;
     }
 
+    @Transactional(readOnly = true)
     public List<CommentResponseDto> getMyLikedComments(User user) {
         List<Like> commentLikes = likeRepository.findByUserAndPost(user, null);
         List<CommentResponseDto> response = new ArrayList<>();
