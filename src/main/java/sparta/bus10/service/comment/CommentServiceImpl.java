@@ -72,6 +72,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     public void createReply(Long commentId, User user, CommentRequestDto request) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
+        int commentLikeCount = likeRepository.countByComment(comment);
         Comment reply = new Comment(comment.getPost(), user, request.getCommentContent(), true, comment.getId());
         commentRepository.save(reply);
     }
