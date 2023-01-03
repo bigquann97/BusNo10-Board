@@ -30,7 +30,8 @@ public class MyServiceImpl implements MyService {
         List<PostResponseDto> result = new ArrayList<>();
         for (Post post : posts) {
             List<Comment> comments = commentRepository.findByPost(post);
-            PostResponseDto postResponseDto = new PostResponseDto(post, comments);
+            int postLikeCount = likeRepository.countByPost(post);
+            PostResponseDto postResponseDto = new PostResponseDto(post, comments,postLikeCount);
             result.add(postResponseDto);
         }
         return result;
@@ -54,7 +55,8 @@ public class MyServiceImpl implements MyService {
         for (Like postLike : postLikes) {
             Post post = postLike.getPost();
             List<Comment> comments = commentRepository.findByPost(post);
-            PostResponseDto postResponseDto = new PostResponseDto(post, comments);
+            int postLikeCount = likeRepository.countByPost(post);
+            PostResponseDto postResponseDto = new PostResponseDto(post, comments,postLikeCount);
             response.add(postResponseDto);
         }
         return response;
