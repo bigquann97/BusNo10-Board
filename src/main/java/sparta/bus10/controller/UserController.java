@@ -26,6 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/signin")
+    @ResponseStatus(HttpStatus.OK)
     public void signin(@RequestBody SigninRequestDto signinRequestDto, HttpServletResponse response) {
         userService.signin(signinRequestDto, response);
     }
