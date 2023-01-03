@@ -1,12 +1,14 @@
-package sparta.bus10.service;
+package sparta.bus10.service.myInfo;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sparta.bus10.dto.CommentResponseDto;
 import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Like;
 import sparta.bus10.entity.Post;
+import sparta.bus10.entity.User;
 import sparta.bus10.repository.CommentRepository;
 import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
@@ -16,26 +18,27 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MyService {
+public class MyServiceImpl implements MyService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
 
-    public List<PostResponseDto> getMyPosts(String username) {
-        List<Post> posts = postRepository.findPostsByUsernameOrderByCreatedAt(username);
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getMyPosts(User user) {
+        List<Post> posts = postRepository.findPostsByUserOrderByCreatedAt(user);
         List<PostResponseDto> result = new ArrayList<>();
         for (Post post : posts) {
-            Long postId = post.getPostId();
-            List<Comment> comments = commentRepository.findByPostId(postId);
+            List<Comment> comments = commentRepository.findByPost(post);
             PostResponseDto postResponseDto = new PostResponseDto(post, comments);
             result.add(postResponseDto);
         }
         return result;
     }
 
-    public List<CommentResponseDto> getMyComments(String username) {
-        List<Comment> comments = commentRepository.findByUsername(username);
+    @Transactional(readOnly = true)
+    public List<CommentResponseDto> getMyComments(User user) {
+        List<Comment> comments = commentRepository.findByUser(user);
         List<CommentResponseDto> commentDtos = new ArrayList<>();
         for (Comment comment : comments) {
             CommentResponseDto dto = new CommentResponseDto(comment);
@@ -44,25 +47,25 @@ public class MyService {
         return commentDtos;
     }
 
-    public List<PostResponseDto> getMyLikedPosts(Long userId) {
-        List<Like> postLikes = likeRepository.findByUserIdAndCommentId(userId, null);
+    @Transactional(readOnly = true)
+    public List<PostResponseDto> getMyLikedPosts(User user) {
+        List<Like> postLikes = likeRepository.findByUserAndComment(user, null);
         List<PostResponseDto> response = new ArrayList<>();
         for (Like postLike : postLikes) {
-            Long postId = postLike.getPostId();
-            Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("게시물 없음"));
-            List<Comment> comments = commentRepository.findByPostId(postId);
+            Post post = postLike.getPost();
+            List<Comment> comments = commentRepository.findByPost(post);
             PostResponseDto postResponseDto = new PostResponseDto(post, comments);
             response.add(postResponseDto);
         }
         return response;
     }
 
-    public List<CommentResponseDto> getMyLikedComments(Long userId) {
-        List<Like> commentLikes = likeRepository.findByUserIdAndPostId(userId, null);
+    @Transactional(readOnly = true)
+    public List<CommentResponseDto> getMyLikedComments(User user) {
+        List<Like> commentLikes = likeRepository.findByUserAndPost(user, null);
         List<CommentResponseDto> response = new ArrayList<>();
         for (Like commentLike : commentLikes) {
-            Long commentId = commentLike.getCommentId();
-            Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
+            Comment comment = commentLike.getComment();
             CommentResponseDto dto = new CommentResponseDto(comment);
             response.add(dto);
         }

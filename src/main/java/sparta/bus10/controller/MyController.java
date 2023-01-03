@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import sparta.bus10.dto.CommentResponseDto;
 import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.security.UserDetailsImpl;
-import sparta.bus10.service.MyService;
+import sparta.bus10.service.myInfo.MyService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/api/my-info")
@@ -24,22 +23,22 @@ public class MyController {
 
     @GetMapping("/posts")
     public List<PostResponseDto> myPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return myService.getMyPosts(userDetails.getUsername());
+        return myService.getMyPosts(userDetails.getUser());
     }
 
     @GetMapping("/comments")
     public List<CommentResponseDto> myComments(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return myService.getMyComments(userDetails.getUsername());
+        return myService.getMyComments(userDetails.getUser());
     }
 
     @GetMapping("/like-posts")
     public List<PostResponseDto> myLikedPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return myService.getMyLikedPosts(userDetails.getUser().getId());
+        return myService.getMyLikedPosts(userDetails.getUser());
     }
 
     @GetMapping("/like-comments")
     public List<CommentResponseDto> myLikedComments(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return myService.getMyLikedComments(userDetails.getUser().getId());
+        return myService.getMyLikedComments(userDetails.getUser());
     }
 
 }

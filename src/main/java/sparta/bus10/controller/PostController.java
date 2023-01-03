@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import sparta.bus10.dto.PostRequestDto;
 import sparta.bus10.dto.PostResponseDto;
 import sparta.bus10.security.UserDetailsImpl;
-import sparta.bus10.service.PostService;
+import sparta.bus10.service.post.PostService;
 
 import java.util.List;
 

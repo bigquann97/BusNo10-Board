@@ -12,18 +12,23 @@ public class Like extends Timestamp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Long postId;
-    @Column
-    private Long commentId;
-    @Column(nullable = false)
-    private Long userId;
 
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
-    public Like(Long postId, Long commentId, Long userId) {
-        this.postId = postId;
-        this.commentId = commentId;
-        this.userId = userId;
+    @ManyToOne
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Like(Post post, Comment comment, User user) {
+        this.post = post;
+        this.comment = comment;
+        this.user = user;
     }
 
 }

@@ -5,7 +5,7 @@ public enum UserRoleEnum {
     MANAGER(Authority.MANAGER), // 매니저 권한
     ADMIN(Authority.ADMIN);  // 관리자 권한
     private final String authority;
-    
+
     UserRoleEnum(String authority) {
         this.authority = authority;
     }
