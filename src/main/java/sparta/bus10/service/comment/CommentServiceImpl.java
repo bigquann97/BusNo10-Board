@@ -8,7 +8,10 @@ import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Post;
 import sparta.bus10.entity.User;
 import sparta.bus10.repository.CommentRepository;
+import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +19,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public void createCommentService(Long postId, CommentRequestDto commentrequestDto, User user) {
@@ -56,6 +60,11 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
                 () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
         );
+        List<Comment> replies = commentRepository.findByParentCommentId(comment.getId());
+        for (Comment reply : replies) {
+            likeRepository.deleteByComment(reply);
+        }
+        commentRepository.deleteAll(replies);
         commentRepository.delete(comment);
     }
 
