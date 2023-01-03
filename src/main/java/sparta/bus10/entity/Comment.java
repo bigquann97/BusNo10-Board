@@ -12,13 +12,15 @@ public class Comment extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentId;
+    private Long id;
 
-    @Column(nullable = false)
-    private Long postId;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
-    @Column(nullable = false)
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(nullable = false)
     private String commentContent;
@@ -27,17 +29,17 @@ public class Comment extends Timestamp {
 
     private Long parentCommentId;
 
-    public Comment(Long postId, String requestUsername,String requestCommentContent){
-        this.postId = postId;
-        this.username = requestUsername;
+    public Comment(Post post, User user, String requestCommentContent){
+        this.post = post;
+        this.user = user;
         this.commentContent = requestCommentContent;
         this.isReply = false;
         this.parentCommentId = null;
     }
 
-    public Comment(Long postId, String requestUsername, String requestCommentContent, boolean isReply, Long parentCommentId){
-        this.postId = postId;
-        this.username = requestUsername;
+    public Comment(Post post, User user, String requestCommentContent, boolean isReply, Long parentCommentId){
+        this.post = post;
+        this.user = user;
         this.commentContent = requestCommentContent;
         this.isReply = isReply;
         this.parentCommentId = parentCommentId;

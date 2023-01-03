@@ -22,7 +22,7 @@ public class AdminService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
-        post.changePost(post.getUsername(), postRequestDto.getPostTitle(), postRequestDto.getPostContent());
+        post.changePost(post.getUser(), postRequestDto.getPostTitle(), postRequestDto.getPostContent());
         postRepository.save(post);
     }
 

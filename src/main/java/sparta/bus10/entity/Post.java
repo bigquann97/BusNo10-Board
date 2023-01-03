@@ -2,7 +2,6 @@ package sparta.bus10.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sparta.bus10.dto.CommentResponseDto;
 
 import javax.persistence.*;
 
@@ -13,10 +12,11 @@ public class Post extends Timestamp {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
-    @Column(nullable = false)
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(nullable = false)
     private String postTitle;
@@ -24,16 +24,19 @@ public class Post extends Timestamp {
     @Column(nullable = false)
     private String postContent;
 
-    public Post(String username, String requestPostTitle, String requestPostContent) {
-        this.username = username;
+    public Post(User user, String requestPostTitle, String requestPostContent) {
+        this.user = user;
         this.postTitle = requestPostTitle;
         this.postContent = requestPostContent;
     }
 
-    public void changePost(String username, String requestPostTitle, String requestPostContent) {
-        this.username = username;
+    public void changePost(User user, String requestPostTitle, String requestPostContent) {
+        this.user = user;
         this.postTitle = requestPostTitle;
         this.postContent = requestPostContent;
     }
 
+    public boolean validateUser(User user) {
+        return this.user.getId().equals(user.getId());
+    }
 }

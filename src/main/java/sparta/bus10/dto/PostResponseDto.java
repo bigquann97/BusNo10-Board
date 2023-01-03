@@ -32,15 +32,15 @@ public class PostResponseDto {
                 continue;
             }
 
-            Long id = comment.getCommentId();
+            Long id = comment.getId();
             CommentResponseDto response = new CommentResponseDto(comment);
             tempList.put(id, response);
 //            CommentResponseDto commentResponseDto = new CommentResponseDto(comment);
 //            commentList.add(commentResponseDto);
         }
         this.commentList = tempList.values().stream().sorted(Comparator.comparing(CommentResponseDto::getCreatedAt)).collect(Collectors.toList());
-        this.postId = post.getPostId();
-        this.userName = post.getUsername();
+        this.postId = post.getId();
+        this.userName = post.getUser().getUsername();
         this.postTitle = post.getPostTitle();
         this.postContent = post.getPostContent();
         this.createdAt = post.getCreatedAt();
