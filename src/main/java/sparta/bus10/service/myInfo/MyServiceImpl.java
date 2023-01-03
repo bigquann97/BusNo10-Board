@@ -49,7 +49,7 @@ public class MyServiceImpl implements MyService {
 
     @Transactional(readOnly = true)
     public List<PostResponseDto> getMyLikedPosts(User user) {
-        List<Like> postLikes = likeRepository.findByUserAndComment(user, null);
+        List<Like> postLikes = likeRepository.findByUserAndCommentNull(user);
         List<PostResponseDto> response = new ArrayList<>();
         for (Like postLike : postLikes) {
             Post post = postLike.getPost();
@@ -62,7 +62,7 @@ public class MyServiceImpl implements MyService {
 
     @Transactional(readOnly = true)
     public List<CommentResponseDto> getMyLikedComments(User user) {
-        List<Like> commentLikes = likeRepository.findByUserAndPost(user, null);
+        List<Like> commentLikes = likeRepository.findByUserAndCommentNotNull(user);
         List<CommentResponseDto> response = new ArrayList<>();
         for (Like commentLike : commentLikes) {
             Comment comment = commentLike.getComment();

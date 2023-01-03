@@ -9,6 +9,9 @@ import sparta.bus10.dto.SignupRequestDto;
 import sparta.bus10.entity.User;
 import sparta.bus10.entity.UserRoleEnum;
 import sparta.bus10.jwt.JwtUtil;
+import sparta.bus10.repository.CommentRepository;
+import sparta.bus10.repository.LikeRepository;
+import sparta.bus10.repository.PostRepository;
 import sparta.bus10.repository.UserRepository;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +23,11 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
+    @Override
     @Transactional
     public void signup(SignupRequestDto signupRequestDto){
         String username = signupRequestDto.getUsername();
@@ -39,6 +46,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
     @Transactional(readOnly = true)
     public void signin(SigninRequestDto signinRequestDto, HttpServletResponse response){
         String username = signinRequestDto.getUsername();
@@ -55,4 +63,12 @@ public class UserServiceImpl implements UserService {
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(), user.getRole()));
     }
 
+    @Override
+    @Transactional
+    public void secession(User user) {
+        likeRepository.deleteByUser(user);
+        commentRepository.deleteByUser(user);
+        postRepository.deleteByUser(user);
+        userRepository.delete(user);
+    }
 }
