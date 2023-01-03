@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import sparta.bus10.dto.UserDto;
 import sparta.bus10.entity.Apply;
 import sparta.bus10.repository.UserRepository;
 import sparta.bus10.security.UserDetailsImpl;
