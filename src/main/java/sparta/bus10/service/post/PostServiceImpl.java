@@ -36,7 +36,8 @@ public class PostServiceImpl implements PostService {
         List<PostResponseDto> resultPosts = new ArrayList<>();
         for (Post post : posts) {
             List<Comment> comments = commentRepository.findByPost(post);
-            PostResponseDto postResponseDto = new PostResponseDto(post, comments);
+            int postLikeCount = likeRepository.countByPost(post);
+            PostResponseDto postResponseDto = new PostResponseDto(post, comments,postLikeCount);
             resultPosts.add(postResponseDto);
         }
         return resultPosts;
@@ -47,7 +48,8 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다."));
         List<Comment> comment = commentRepository.findByPost(post);
-        return new PostResponseDto(post, comment);
+        int postLikeCount = likeRepository.countByPost(post);
+        return new PostResponseDto(post, comment,postLikeCount);
     }
 
     @Transactional

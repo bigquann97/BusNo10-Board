@@ -66,11 +66,13 @@ public class CommentServiceImpl implements CommentService {
         }
         commentRepository.deleteAll(replies);
         commentRepository.delete(comment);
+        likeRepository.deleteByComment(comment);
     }
 
     @Transactional
     public void createReply(Long commentId, User user, CommentRequestDto request) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
+        int commentLikeCount = likeRepository.countByComment(comment);
         Comment reply = new Comment(comment.getPost(), user, request.getCommentContent(), true, comment.getId());
         commentRepository.save(reply);
     }
