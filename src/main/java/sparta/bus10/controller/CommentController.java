@@ -1,6 +1,7 @@
 package sparta.bus10.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public void createCommentService(
             @RequestParam Long postId,
             @RequestBody CommentRequestDto requestDto,
@@ -26,6 +28,7 @@ public class CommentController {
     }
 
     @PatchMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
     public void editComment(
 //            @PathVariable Long postId,
             @PathVariable Long commentId,
@@ -35,6 +38,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
     public void deleteComment(
 //            @PathVariable Long postId,
             @PathVariable Long commentId,
@@ -44,6 +48,7 @@ public class CommentController {
     }
 
     @PostMapping("/{commentId}")
+    @ResponseStatus(HttpStatus.CREATED)
     public void createReply(
             @PathVariable Long commentId,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
