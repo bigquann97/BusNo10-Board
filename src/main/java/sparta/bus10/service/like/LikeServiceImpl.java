@@ -57,7 +57,7 @@ public class LikeServiceImpl implements LikeService {
         if(found.isPresent()){
             throw new IllegalArgumentException("이미 좋아요 한 댓글입니다.");
         }
-        Like like = new Like(null, comment, user);
+        Like like = new Like(comment.getPost(), comment, user);
         likeRepository.save(like);
     }
 
