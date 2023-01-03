@@ -6,7 +6,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import sparta.bus10.dto.CommentRequestDto;
 import sparta.bus10.security.UserDetailsImpl;
-import sparta.bus10.service.CommentService;
+import sparta.bus10.service.comment.CommentService;
 
 @RestController
 @RequestMapping("/api/comments")

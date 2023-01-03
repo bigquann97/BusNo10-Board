@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sparta.bus10.dto.SigninRequestDto;
 import sparta.bus10.dto.SignupRequestDto;
-import sparta.bus10.service.UserService;
+import sparta.bus10.service.user.UserService;
 
 import javax.servlet.http.HttpServletResponse;
 
