@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
+    List<Like> deleteByUser(@NonNull User user);
+    List<Like> findByUser(@NonNull User user);
     long deleteByPost(@NonNull Post post);
     long deleteByComment(@NonNull Comment comment);
     List<Like> findByUserAndCommentNull(@NonNull User user);
