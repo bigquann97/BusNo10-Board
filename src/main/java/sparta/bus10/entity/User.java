@@ -28,9 +28,16 @@ public class User extends Timestamp {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
+    // @OneToOne(fetch = FetchType.LAZY)
+    // private Apply apply;
+
     public User(String username, String password, UserRoleEnum role) {
         this.username = username;
         this.password = password;
+        this.role = role;
+    }
+
+    public void changeRole(UserRoleEnum role){
         this.role = role;
     }
 
