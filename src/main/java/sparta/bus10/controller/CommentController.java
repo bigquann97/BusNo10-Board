@@ -12,7 +12,7 @@ import sparta.bus10.service.comment.CommentService;
 @RestController
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 public class CommentController {
 
     private final CommentService commentService;

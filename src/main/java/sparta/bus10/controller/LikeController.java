@@ -11,7 +11,7 @@ import sparta.bus10.service.like.LikeService;
 @RestController
 @RequestMapping("/api/likes")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 public class LikeController {
     private final LikeService likeService;
 
