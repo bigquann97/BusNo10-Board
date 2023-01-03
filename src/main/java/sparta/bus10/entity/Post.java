@@ -2,34 +2,41 @@ package sparta.bus10.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import sparta.bus10.dto.PostRequestDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class Post extends Timestamp {
+
     @Id
-    @GeneratedValue
-    private Long postId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(nullable = false)
     private String postTitle;
+
     @Column(nullable = false)
     private String postContent;
 
-    public Post(PostRequestDto requestDto) {
-        this.postTitle = requestDto.getPostTitle();
-        this.postContent = requestDto.getPostContent();
-    }
-    public void changePost(PostRequestDto postRequestDto) {
-        this.postTitle = postRequestDto.getPostTitle();
-        this.postContent = postRequestDto.getPostContent();
+    public Post(User user, String requestPostTitle, String requestPostContent) {
+        this.user = user;
+        this.postTitle = requestPostTitle;
+        this.postContent = requestPostContent;
     }
 
+    public void changePost(User user, String requestPostTitle, String requestPostContent) {
+        this.user = user;
+        this.postTitle = requestPostTitle;
+        this.postContent = requestPostContent;
+    }
+
+    public boolean validateUser(User user) {
+        return this.user.getId().equals(user.getId());
+    }
 }

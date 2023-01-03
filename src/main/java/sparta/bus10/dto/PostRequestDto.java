@@ -2,6 +2,7 @@ package sparta.bus10.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import sparta.bus10.entity.Post;
 
 @Getter
 @NoArgsConstructor
