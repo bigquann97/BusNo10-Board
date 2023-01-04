@@ -1,47 +1,43 @@
 package sparta.bus10.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import sparta.bus10.entity.Apply;
-import sparta.bus10.repository.UserRepository;
-import sparta.bus10.security.UserDetailsImpl;
-import sparta.bus10.service.manager.ManagerService;
-
-import java.util.List;
+import sparta.bus10.dto.CommentRequest;
+import sparta.bus10.dto.PostRequest;
+import sparta.bus10.service.admin.AdminService;
 
 @RestController
-@RequestMapping("/api/managers")
 @RequiredArgsConstructor
+@RequestMapping("/api/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
 public class ManagerController {
-    private final ManagerService managerService;
 
-    // 매니저 신청 목록 조회
-    @GetMapping("/list")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<Apply> getApplyList(){
-        return managerService.getApplyList();
+    private final AdminService adminService;
+
+    @DeleteMapping("/posts/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deletePostByAdmin(@PathVariable Long postId) {
+        adminService.deletePostByAdmin(postId);
     }
 
-    // 매니저 등업 신청
-    @PostMapping("/submit")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public void applyManager(@AuthenticationPrincipal UserDetailsImpl userDetails){
-        managerService.applyManager(userDetails.getUser());
+    @PatchMapping("/posts/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void editPostByAdmin(@PathVariable Long postId, @RequestBody PostRequest postRequest){
+        adminService.editPostByAdmin(postId, postRequest);
     }
 
-    // 매니저 신청 수락
-    @PostMapping("/accept/{userId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void acceptApply(@PathVariable Long userId){
-        managerService.acceptApply(userId);
+    @DeleteMapping("/comments/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCommentByAdmin(@PathVariable Long commentId) {
+        adminService.deleteCommentByAdmin(commentId);
     }
 
-    // 매니저 신청 거부
-    @PostMapping("/decline/{userId}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void declineApply(@PathVariable Long userId){
-        managerService.declineApply(userId);
+    @PatchMapping("/comments/{commentId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void editCommentByAdmin(@PathVariable Long commentId, @RequestBody CommentRequest commentRequest) {
+        adminService.editCommentByAdmin(commentId, commentRequest);
     }
+
 }

@@ -4,8 +4,9 @@ import sparta.bus10.entity.User;
 
 import java.util.List;
 
-public interface ManagerService {
+public interface ManagementService {
     List<Apply> getApplyList();
+
     void applyManager(User user);
 
     void acceptApply(Long userId);

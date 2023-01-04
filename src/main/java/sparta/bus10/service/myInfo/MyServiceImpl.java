@@ -3,8 +3,8 @@ package sparta.bus10.service.myInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sparta.bus10.dto.CommentResponseDto;
-import sparta.bus10.dto.PostResponseDto;
+import sparta.bus10.dto.CommentResponse;
+import sparta.bus10.dto.PostResponse;
 import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Like;
 import sparta.bus10.entity.Post;
@@ -24,51 +24,55 @@ public class MyServiceImpl implements MyService {
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
 
+    @Override
     @Transactional(readOnly = true)
-    public List<PostResponseDto> getMyPosts(User user) {
+    public List<PostResponse> getMyPosts(User user) {
         List<Post> posts = postRepository.findPostsByUserOrderByCreatedAt(user);
-        List<PostResponseDto> result = new ArrayList<>();
+        List<PostResponse> result = new ArrayList<>();
         for (Post post : posts) {
             List<Comment> comments = commentRepository.findByPost(post);
-            int postLikeCount = likeRepository.countByPost(post);
-            PostResponseDto postResponseDto = new PostResponseDto(post, comments,postLikeCount);
-            result.add(postResponseDto);
+            int postLikeCount = likeRepository.countByPostAndComment(post, null);
+            PostResponse postResponse = new PostResponse(post, comments,postLikeCount);
+            result.add(postResponse);
         }
         return result;
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public List<CommentResponseDto> getMyComments(User user) {
+    public List<CommentResponse> getMyComments(User user) {
         List<Comment> comments = commentRepository.findByUser(user);
-        List<CommentResponseDto> commentDtos = new ArrayList<>();
+        List<CommentResponse> commentResponses = new ArrayList<>();
         for (Comment comment : comments) {
-            CommentResponseDto dto = new CommentResponseDto(comment);
-            commentDtos.add(dto);
+            CommentResponse dto = new CommentResponse(comment);
+            commentResponses.add(dto);
         }
-        return commentDtos;
+        return commentResponses;
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public List<PostResponseDto> getMyLikedPosts(User user) {
+    public List<PostResponse> getMyLikedPosts(User user) {
         List<Like> postLikes = likeRepository.findByUserAndCommentNull(user);
-        List<PostResponseDto> response = new ArrayList<>();
+        List<PostResponse> response = new ArrayList<>();
         for (Like postLike : postLikes) {
             Post post = postLike.getPost();
             List<Comment> comments = commentRepository.findByPost(post);
-            int postLikeCount = likeRepository.countByPost(post);
-            PostResponseDto postResponseDto = new PostResponseDto(post, comments,postLikeCount);
-            response.add(postResponseDto);
+            int postLikeCount = likeRepository.countByPostAndComment(post, null);
+            PostResponse postResponse = new PostResponse(post, comments,postLikeCount);
+            response.add(postResponse);
         }
         return response;
     }
 
+    @Override
     @Transactional(readOnly = true)
-    public List<CommentResponseDto> getMyLikedComments(User user) {
+    public List<CommentResponse> getMyLikedComments(User user) {
         List<Like> commentLikes = likeRepository.findByUserAndCommentNotNull(user);
-        List<CommentResponseDto> response = new ArrayList<>();
+        List<CommentResponse> response = new ArrayList<>();
         for (Like commentLike : commentLikes) {
             Comment comment = commentLike.getComment();
-            CommentResponseDto dto = new CommentResponseDto(comment);
+            CommentResponse dto = new CommentResponse(comment);
             response.add(dto);
         }
         return response;

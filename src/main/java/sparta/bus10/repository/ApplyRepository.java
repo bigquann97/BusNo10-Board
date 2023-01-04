@@ -8,5 +8,6 @@ import sparta.bus10.entity.User;
 import java.util.Optional;
 
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
+    boolean existsByUser(@NonNull User user);
     Optional<Apply> findByUser(User user);
 }

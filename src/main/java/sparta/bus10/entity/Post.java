@@ -14,7 +14,7 @@ public class Post extends Timestamp {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -37,6 +37,6 @@ public class Post extends Timestamp {
     }
 
     public boolean validateUser(User user) {
-        return this.user.getId().equals(user.getId());
+        return this.user.validateUser(user);
     }
 }

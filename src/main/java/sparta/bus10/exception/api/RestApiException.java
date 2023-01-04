@@ -1,5 +1,8 @@
 package sparta.bus10.exception.api;
 
+import lombok.Getter;
+
+@Getter
 public class RestApiException {
     private int code;
     private String errorMessage;
