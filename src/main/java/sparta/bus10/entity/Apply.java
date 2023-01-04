@@ -9,13 +9,16 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 public class Apply {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne
     private User user;
 
     public Apply(User user) {
         this.user = user;
     }
+
 }

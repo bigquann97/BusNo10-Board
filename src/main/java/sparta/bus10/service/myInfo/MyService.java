@@ -1,17 +1,17 @@
 package sparta.bus10.service.myInfo;
 
-import sparta.bus10.dto.CommentResponseDto;
-import sparta.bus10.dto.PostResponseDto;
+import sparta.bus10.dto.CommentResponse;
+import sparta.bus10.dto.PostResponse;
 import sparta.bus10.entity.User;
 
 import java.util.List;
 
 public interface MyService {
-    List<PostResponseDto> getMyPosts(User user);
+    List<PostResponse> getMyPosts(User user);
 
-    List<CommentResponseDto> getMyComments(User user);
+    List<CommentResponse> getMyComments(User user);
 
-    List<PostResponseDto> getMyLikedPosts(User user);
+    List<PostResponse> getMyLikedPosts(User user);
 
-    List<CommentResponseDto> getMyLikedComments(User user);
+    List<CommentResponse> getMyLikedComments(User user);
 }

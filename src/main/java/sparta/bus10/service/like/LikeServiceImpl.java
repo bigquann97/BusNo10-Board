@@ -7,6 +7,10 @@ import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Like;
 import sparta.bus10.entity.Post;
 import sparta.bus10.entity.User;
+import sparta.bus10.exception.CommentException.CommentNotFoundException;
+import sparta.bus10.exception.LikeException.AlreadyLikedException;
+import sparta.bus10.exception.LikeException.NoLikeFoundException;
+import sparta.bus10.exception.PostException.PostNotFoundException;
 import sparta.bus10.repository.CommentRepository;
 import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
@@ -16,58 +20,49 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class LikeServiceImpl implements LikeService {
+
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final LikeRepository likeRepository;
 
+    @Override
     @Transactional
     public void likePost(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("게시물을 찾을 수 없습니다.")
-        );
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         Optional<Like> found = likeRepository.findByPostAndUser(post, user);
-
-        if(found.isPresent()){
-            throw new IllegalArgumentException("이미 좋아요 한 게시물입니다.");
-        }
-        Like like = new Like(post,null, user);
+        validateIfUserAlreadyLiked(found);
+        Like like = new Like(post, null, user);
         likeRepository.save(like);
     }
 
+    @Override
     @Transactional
     public void unlikePost(Long postId, User user){
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("게시물을 찾을 수 없습니다.")
-        );
-        Optional<Like> like = likeRepository.findByPostAndUser(post, user);
-        if(!like.isPresent()){
-            throw new IllegalArgumentException("좋아요를 하지 않은 게시물입니다.");
-        }
-        likeRepository.delete(like.get());
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        Like like = likeRepository.findByPostAndUser(post, user).orElseThrow(NoLikeFoundException::new);
+        likeRepository.delete(like);
     }
 
+    @Override
     @Transactional
     public void likeComment(Long commentId, User user) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
-        );
+        Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
         Optional<Like> found = likeRepository.findByCommentAndUser(comment, user);
-        if(found.isPresent()){
-            throw new IllegalArgumentException("이미 좋아요 한 댓글입니다.");
-        }
+        validateIfUserAlreadyLiked(found);
         Like like = new Like(comment.getPost(), comment, user);
         likeRepository.save(like);
     }
 
+    @Override
     @Transactional
     public void unlikeComment(Long commentId, User user) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
-        );
-        Optional<Like> like = likeRepository.findByCommentAndUser(comment, user);
-        if(!like.isPresent()){
-            throw new IllegalArgumentException("좋아요를 하지 않은 댓글입니다.");
-        }
-        likeRepository.delete(like.get());
+        Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
+        Like like = likeRepository.findByCommentAndUser(comment, user).orElseThrow(NoLikeFoundException::new);
+        likeRepository.delete(like);
+    }
+
+    private void validateIfUserAlreadyLiked(Optional<Like> found) {
+        if(found.isPresent())
+            throw new AlreadyLikedException();
     }
 }

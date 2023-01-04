@@ -2,12 +2,8 @@ package sparta.bus10.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
-import java.time.LocalDateTime;
 
 @Entity(name = "users")
 @Getter
@@ -28,9 +24,6 @@ public class User extends Timestamp {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    // @OneToOne(fetch = FetchType.LAZY)
-    // private Apply apply;
-
     public User(String username, String password, UserRoleEnum role) {
         this.username = username;
         this.password = password;
@@ -41,4 +34,7 @@ public class User extends Timestamp {
         this.role = role;
     }
 
+    public boolean validateUser(User user) {
+        return this.id.equals(user.getId());
+    }
 }

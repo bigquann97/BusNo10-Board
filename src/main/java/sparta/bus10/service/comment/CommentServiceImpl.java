@@ -3,10 +3,13 @@ package sparta.bus10.service.comment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sparta.bus10.dto.CommentRequestDto;
+import sparta.bus10.dto.CommentRequest;
 import sparta.bus10.entity.Comment;
 import sparta.bus10.entity.Post;
 import sparta.bus10.entity.User;
+import sparta.bus10.exception.CommentException.CommentNotFoundException;
+import sparta.bus10.exception.PostException.PostNotFoundException;
+import sparta.bus10.exception.UserException;
 import sparta.bus10.repository.CommentRepository;
 import sparta.bus10.repository.LikeRepository;
 import sparta.bus10.repository.PostRepository;
@@ -21,45 +24,26 @@ public class CommentServiceImpl implements CommentService {
     private final PostRepository postRepository;
     private final LikeRepository likeRepository;
 
+    @Override
     @Transactional
-    public void createCommentService(Long postId, CommentRequestDto commentrequestDto, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
-        );
-        Comment comment = new Comment(post, user, commentrequestDto.getCommentContent());
+    public void createCommentService(Long postId, CommentRequest commentrequest, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        Comment comment = new Comment(post, user, commentrequest.getCommentContent());
         commentRepository.save(comment);
     }
 
+    @Override
     @Transactional
-    public void editComment(Long commentId, CommentRequestDto commentRequestDto, User user) {
-//        postRepository.findById(postId).orElseThrow(
-//                () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
-//        );
-//        Comment comment = commentRepository.findById(commentId).orElseThrow(
-//                () -> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
-        //유효성검사 이름 비교
-//        if (!comment.getUsername().equals(commentRequestDto.getUserName())) {
-//            throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
-//        }
-        Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
-                () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
-        );
-        comment.changeComment(commentRequestDto.getCommentContent());
+    public void editComment(Long commentId, CommentRequest commentRequest, User user) {
+        Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(UserException.AuthorityException::new);
+        comment.changeComment(commentRequest.getCommentContent());
         commentRepository.save(comment);
     }
 
+    @Override
     @Transactional
     public void deleteComment(Long commentId, User user) {
-//        postRepository.findById(postId).orElseThrow(
-//                () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
-//        );
-//        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다."));
-//        if (!comment.getUsername().equals(userName)) {
-//            throw new IllegalArgumentException("유저의 이름이 일치하지 않습니다.");
-//        }
-        Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(
-                () -> new IllegalArgumentException("댓글을 찾을 수 없습니다.")
-        );
+        Comment comment = commentRepository.findByIdAndUser(commentId, user).orElseThrow(UserException.AuthorityException::new);
         List<Comment> replies = commentRepository.findByParentCommentId(comment.getId());
         for (Comment reply : replies) {
             likeRepository.deleteByComment(reply);
@@ -69,10 +53,10 @@ public class CommentServiceImpl implements CommentService {
         likeRepository.deleteByComment(comment);
     }
 
+    @Override
     @Transactional
-    public void createReply(Long commentId, User user, CommentRequestDto request) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new IllegalArgumentException("댓글 없음"));
-        int commentLikeCount = likeRepository.countByComment(comment);
+    public void createReply(Long commentId, User user, CommentRequest request) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(CommentNotFoundException::new);
         Comment reply = new Comment(comment.getPost(), user, request.getCommentContent(), true, comment.getId());
         commentRepository.save(reply);
     }

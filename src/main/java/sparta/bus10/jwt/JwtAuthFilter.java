@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
-import sparta.bus10.dto.SecurityExceptionDto;
+import sparta.bus10.dto.SecurityExceptionResponse;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -48,7 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         response.setStatus(statusCode);
         response.setContentType("application/json");
         try {
-            String json = new ObjectMapper().writeValueAsString(new SecurityExceptionDto(statusCode, msg));
+            String json = new ObjectMapper().writeValueAsString(new SecurityExceptionResponse(statusCode, msg));
             response.getWriter().write(json);
         } catch (Exception e) {
             log.error(e.getMessage());

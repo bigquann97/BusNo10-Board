@@ -38,4 +38,5 @@ public class LikeController {
     public void unlikeComment(@RequestParam Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
         likeService.unlikeComment(id, userDetails.getUser());
     }
+
 }

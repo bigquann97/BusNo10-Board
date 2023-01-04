@@ -10,16 +10,16 @@ import java.util.List;
 
 @Getter
 @NoArgsConstructor
-public class CommentResponseDto {
+public class CommentResponse {
 
     private Long commentId;
     private String userName;
     private String commentContent;
-    private List<CommentResponseDto> replies = new ArrayList<>();
+    private List<CommentResponse> replies = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public CommentResponseDto(Comment comment) {
+    public CommentResponse(Comment comment) {
         this.commentId = comment.getId();
         this.userName = comment.getUser().getUsername();
         this.commentContent = comment.getCommentContent();
@@ -27,9 +27,7 @@ public class CommentResponseDto {
         this.modifiedAt = comment.getModifiedAt();
     }
 
-    public void addReply(CommentResponseDto reply) {
+    public void addReply(CommentResponse reply) {
         this.replies.add(reply);
     }
 }
-
-//코멘트 생성시 같은아이디로 2개의 댓글 생성불가

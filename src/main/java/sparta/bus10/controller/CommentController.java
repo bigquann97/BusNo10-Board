@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import sparta.bus10.dto.CommentRequestDto;
+import sparta.bus10.dto.CommentRequest;
 import sparta.bus10.security.UserDetailsImpl;
 import sparta.bus10.service.comment.CommentService;
 
@@ -21,7 +21,7 @@ public class CommentController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createCommentService(
             @RequestParam Long postId,
-            @RequestBody CommentRequestDto requestDto,
+            @RequestBody CommentRequest requestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
         commentService.createCommentService(postId, requestDto, userDetails.getUser());
@@ -30,17 +30,15 @@ public class CommentController {
     @PatchMapping("/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public void editComment(
-//            @PathVariable Long postId,
             @PathVariable Long commentId,
-            @RequestBody CommentRequestDto commentrequestDto,
+            @RequestBody CommentRequest commentrequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        commentService.editComment(commentId, commentrequestDto, userDetails.getUser());
+        commentService.editComment(commentId, commentrequest, userDetails.getUser());
     }
 
     @DeleteMapping("/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteComment(
-//            @PathVariable Long postId,
             @PathVariable Long commentId,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
@@ -52,7 +50,7 @@ public class CommentController {
     public void createReply(
             @PathVariable Long commentId,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestBody CommentRequestDto request
+            @RequestBody CommentRequest request
     ) {
         commentService.createReply(commentId, userDetails.getUser(), request);
     }

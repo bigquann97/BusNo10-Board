@@ -1,19 +1,19 @@
 package sparta.bus10.service.post;
 
-import sparta.bus10.dto.PostRequestDto;
-import sparta.bus10.dto.PostResponseDto;
+import sparta.bus10.dto.PostRequest;
+import sparta.bus10.dto.PostResponse;
 import sparta.bus10.entity.User;
 
 import java.util.List;
 
 public interface PostService {
-    void createPost(PostRequestDto postrequestDto, User user);
+    void createPost(PostRequest postrequest, User user);
 
-    List<PostResponseDto> getPostAll();
+    List<PostResponse> getPostAll();
 
-    PostResponseDto getPostOne(Long postId);
+    PostResponse getPostOne(Long postId);
 
-    void editPost(Long postId, PostRequestDto postrequestDto, User user);
+    void editPost(Long postId, PostRequest postrequest, User user);
 
     void deletePost(Long postId, User user);
 }

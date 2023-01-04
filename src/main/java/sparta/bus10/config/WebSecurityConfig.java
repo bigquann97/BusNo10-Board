@@ -13,6 +13,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import sparta.bus10.jwt.JwtAuthFilter;
 import sparta.bus10.jwt.JwtUtil;
+import sparta.bus10.security.JwtAccessDeniedHandler;
+import sparta.bus10.security.JwtAuthenticationEntryPoint;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,6 +23,8 @@ import sparta.bus10.jwt.JwtUtil;
 public class WebSecurityConfig {
 
     private final JwtUtil jwtUtil;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -29,16 +33,22 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-                http.csrf().disable();
-                http.headers().frameOptions().disable(); // 해당 페이지를 <frame> 또는<iframe>, <object> 에서 렌더링할 수 있는지 여부
+        http.csrf().disable();
 
-                http.sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션이 필요하면 생성하도록 셋팅
-                .authorizeHttpRequests()
-                        .antMatchers("/h2-console/**").permitAll()
-                        .antMatchers("/api/auth/**").permitAll()
-                        .anyRequest().authenticated()
-                        .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class); // JWT 인증/인가를 사용하기 위한 설정
+        http.headers().frameOptions().disable(); // 해당 페이지를 <frame> 또는<iframe>, <object> 에서 렌더링할 수 있는지 여부
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 세션이 필요하면 생성하도록 셋팅
+
+        http.exceptionHandling()
+            .accessDeniedHandler(jwtAccessDeniedHandler)
+            .authenticationEntryPoint(jwtAuthenticationEntryPoint);
+
+        http.authorizeHttpRequests()
+            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers("/api/auth/**").permitAll()
+            .anyRequest().authenticated()
+            .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class); // JWT 인증/인가를 사용하기 위한 설정
+
         return http.build();
     }
 }

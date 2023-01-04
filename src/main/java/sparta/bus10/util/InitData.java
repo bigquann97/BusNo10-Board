@@ -22,6 +22,7 @@ public class InitData implements ApplicationRunner {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -77,6 +78,18 @@ public class InitData implements ApplicationRunner {
         ));
 
         commentRepository.saveAll(comments);
+
+        Like like1 = new Like(post1, null, gwanho);
+        Like like2 = new Like(post1, null, imsoo);
+        Like like3 = new Like(post1, null, songmi);
+        Like like4 = new Like(post1, comment1, imsoo);
+        Like like5 = new Like(post1, comment2, imsoo);
+
+        ArrayList<Like> likes = new ArrayList<>(List.of(
+                like1, like2, like3, like4, like5
+        ));
+
+        likeRepository.saveAll(likes);
     }
 
 }
