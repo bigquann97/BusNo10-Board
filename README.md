@@ -27,6 +27,9 @@ SpringBoot 2.7.7 + Java/JDK 11
 - Thymeleaf
 - JWT
 
+### 팀 노션 링크
+[BusNo10-Board](https://pointy-icon-281.notion.site/f3f8139db4484b5694dc5be2a43f10db)
+
 ## ERD 설계
 ![Untitled](https://user-images.githubusercontent.com/86715916/210497338-d9945fd0-1bb8-4613-b5af-2456474c2a23.png)
 
