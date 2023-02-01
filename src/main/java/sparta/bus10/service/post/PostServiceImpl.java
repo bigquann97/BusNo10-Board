@@ -61,7 +61,7 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public void editPost(Long postId, PostRequest postrequest, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        validateIfPostWrittenByUser(user, post);
+//        validateIfPostWrittenByUser(user, post);
         post.changePost(user, postrequest.getPostTitle(), postrequest.getPostContent());
         postRepository.save(post);
     }
